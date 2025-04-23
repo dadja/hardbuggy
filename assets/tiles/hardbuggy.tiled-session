@@ -6,29 +6,30 @@
     "activeFile": "",
     "expandedProjectPaths": [
     ],
+    "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "Level-01.tmx": {
-            "scale": 1.8920833333333333,
-            "selectedLayer": 2,
+            "scale": 1.44,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 276.4148865888571,
-                "y": 227.26271746311386
+                "x": 388.19444444444446,
+                "y": 380.9027777777778
             }
         },
         "Level-02.tmx": {
-            "scale": 1.1291145833333331,
-            "selectedLayer": 1,
+            "scale": 1.12,
+            "selectedLayer": 0,
             "viewCenter": {
-                "x": 480.0221412426774,
-                "y": 308.20609806725406
+                "x": 480.35714285714283,
+                "y": 308.4821428571428
             }
         },
         "Level-03.tmx": {
-            "scale": 1.1291145833333331,
-            "selectedLayer": 2,
+            "scale": 1.12,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 480.0221412426774,
-                "y": 319.7195442594217
+                "x": 480.35714285714283,
+                "y": 320.0892857142858
             }
         },
         "addwork.tsx": {
@@ -50,11 +51,11 @@
     ],
     "project": "hardbuggy.tiled-project",
     "recentFiles": [
-        "addwork.tsx",
-        "level.tmx",
-        "Level-01.tmx",
+        "Level-03.tmx",
         "Level-02.tmx",
-        "Level-03.tmx"
+        "Level-01.tmx",
+        "addwork.tsx",
+        "level.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"
 }

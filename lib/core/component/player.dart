@@ -2,24 +2,25 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/sprite.dart';
+import 'package:flutter/services.dart';
 import 'package:hardbuggy/core/habuggygame.dart';
 
-enum PlayerDirection { up, down, left, right }
-
-enum PlayerState { idle, walking, running, attacking, hurt, dead }
-
-enum PlayerAction { attack, jump, climb, fall }
-
 enum PlayerAnimation {
-  idle,
   walkLeft,
   walkRight,
   walkUp,
   walkDown,
-  attack,
-  hurt,
-  die
+  // attack,
+  // hurt,
+  // die
+}
+
+enum PlayerDirection {
+  left,
+  right,
+  up,
+  down,
+  none,
 }
 
 class Player extends SpriteAnimationGroupComponent
@@ -32,15 +33,16 @@ class Player extends SpriteAnimationGroupComponent
   late Image spriteSheet;
   final double stepTime = 0.25;
   double moveSpeed = 100;
-  Vector2 startingPosition = Vector2.zero();
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 0;
   Vector2 velocity = Vector2.zero();
-  PlayerDirection direction = PlayerDirection.down;
-  PlayerState state = PlayerState.walking;
-  PlayerAction action = PlayerAction.attack;
+  late final int spriteGrid = 16;
+  late final int spriteAmountPerRow = 4;
+  PlayerDirection playerDirection = PlayerDirection.none;
+  bool isFacingRight = true;
+  bool isFacingTop = false;
 
-  Player() : super(size: Vector2(32, 32));
+  Player({position}) : super(position: position, size: Vector2(32, 32));
 
   @override
   FutureOr<void> onLoad() {
@@ -48,53 +50,112 @@ class Player extends SpriteAnimationGroupComponent
     return super.onLoad();
   }
 
+  @override
+  void update(double dt) {
+    _updatePlayerMovement(dt);
+    super.update(dt);
+  }
+
+  @override
+  bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
+    if (game.showJoyStick) return false;
+    final isLeftKeyPressed =
+        keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
+            keysPressed.contains(LogicalKeyboardKey.keyA);
+    final isRightKeyPressed =
+        keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
+            keysPressed.contains(LogicalKeyboardKey.keyD);
+    final isUpKeyPressed = keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
+        keysPressed.contains(LogicalKeyboardKey.keyW);
+    final isDownKeyPressed =
+        keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
+            keysPressed.contains(LogicalKeyboardKey.keyS);
+
+    if (isLeftKeyPressed && isRightKeyPressed) {
+      velocity = Vector2.zero();
+    }
+    if (isDownKeyPressed && isUpKeyPressed) {
+      velocity = Vector2.zero();
+    }
+    if (isLeftKeyPressed) {
+      playerDirection = PlayerDirection.left;
+      velocity = Vector2(-1, 0);
+    } else if (isRightKeyPressed) {
+      playerDirection = PlayerDirection.right;
+      velocity = Vector2(1, 0);
+    } else if (isUpKeyPressed) {
+      playerDirection = PlayerDirection.up;
+      velocity = Vector2(0, -1);
+    } else if (isDownKeyPressed) {
+      playerDirection = PlayerDirection.down;
+      velocity = Vector2(0, 1);
+    } else {
+      playerDirection = PlayerDirection.none;
+      velocity = Vector2.zero();
+    }
+    return super.onKeyEvent(event, keysPressed);
+  }
+
   void _loadAllAnimations() {
     spriteSheet = game.images.fromCache('player_128.png');
     //walkLeft Animation
     walkLeftAnimation = SpriteAnimation.fromFrameData(
       spriteSheet,
-      SpriteAnimationData.sequenced(
-        amount: 4,
-        amountPerRow: 4,
-        stepTime: stepTime,
+      SpriteAnimationData.range(
+        start: 4,
+        end: 7,
+        amount: spriteGrid,
+        amountPerRow: spriteAmountPerRow,
+        stepTimes: List.generate(
+          4,
+          (index) => index == 0 ? stepTime : stepTime * 0.5,
+        ),
         textureSize: Vector2(32, 32),
-        texturePosition: Vector2(0, 1 * 32),
-        loop: true,
       ),
     );
     //WalkRight Animation
     walkRightAnimation = SpriteAnimation.fromFrameData(
       spriteSheet,
-      SpriteAnimationData.sequenced(
-        amount: 4,
-        stepTime: stepTime,
+      SpriteAnimationData.range(
+        start: 8,
+        end: 11,
+        amount: spriteGrid,
+        amountPerRow: spriteAmountPerRow,
+        stepTimes: List.generate(
+          4,
+          (index) => index == 0 ? stepTime : stepTime * 0.5,
+        ),
         textureSize: Vector2(32, 32),
-        texturePosition: Vector2(0, 2 * 32),
-        loop: true,
       ),
     );
     //WalkUp Animation
     walkUpAnimation = SpriteAnimation.fromFrameData(
-      spriteSheet,
-      SpriteAnimationData.sequenced(
-        amount: 4,
-        stepTime: stepTime,
-        textureSize: Vector2(32, 32),
-        texturePosition: Vector2(0, 3 * 32),
-        loop: true,
-      ),
-    );
+        spriteSheet,
+        SpriteAnimationData.range(
+          start: 12,
+          end: 15,
+          amount: spriteGrid,
+          amountPerRow: spriteAmountPerRow,
+          stepTimes: List.generate(
+            4,
+            (index) => index == 0 ? stepTime : stepTime * 0.5,
+          ),
+          textureSize: Vector2(32, 32),
+        ));
     //WalkDown Animation
     walkDownAnimation = SpriteAnimation.fromFrameData(
-      spriteSheet,
-      SpriteAnimationData.sequenced(
-        amount: 4,
-        stepTime: stepTime,
-        textureSize: Vector2(32, 32),
-        texturePosition: Vector2(0, 0 * 32),
-        loop: true,
-      ),
-    );
+        spriteSheet,
+        SpriteAnimationData.range(
+          start: 0,
+          end: 3,
+          amount: spriteGrid,
+          amountPerRow: spriteAmountPerRow,
+          stepTimes: List.generate(
+            4,
+            (index) => index == 0 ? stepTime : stepTime * 0.5,
+          ),
+          textureSize: Vector2(32, 32),
+        ));
 
     animations = {
       PlayerAnimation.walkLeft: walkLeftAnimation,
@@ -102,23 +163,31 @@ class Player extends SpriteAnimationGroupComponent
       PlayerAnimation.walkUp: walkUpAnimation,
       PlayerAnimation.walkDown: walkDownAnimation,
     };
-    current = PlayerAnimation.walkUp;
+    current = PlayerAnimation.walkRight;
   }
 
-  SpriteAnimation _spriteAnimation(
-    Image imgspriteSheet,
-    double animationStepTime,
-    int frameamount,
-  ) {
-    return SpriteAnimation.fromFrameData(
-      imgspriteSheet,
-      SpriteAnimationData.sequenced(
-        amount: frameamount,
-        amountPerRow: 4,
-        stepTime: animationStepTime,
-        textureSize: Vector2(32, 32),
-        loop: true,
-      ),
-    );
+  void _updatePlayerMovement(double dt) {
+    //let the player move around ...
+    position += velocity * moveSpeed * dt;
+    if (velocity == Vector2.zero()) {
+      current = PlayerAnimation.walkRight;
+    } else {
+      switch (playerDirection) {
+        case PlayerDirection.left:
+          current = PlayerAnimation.walkLeft;
+          break;
+        case PlayerDirection.right:
+          current = PlayerAnimation.walkRight;
+          break;
+        case PlayerDirection.up:
+          current = PlayerAnimation.walkUp;
+          break;
+        case PlayerDirection.down:
+          current = PlayerAnimation.walkDown;
+          break;
+        default:
+          break;
+      }
+    }
   }
 }

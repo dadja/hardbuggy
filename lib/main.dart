@@ -4,15 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hardbuggy/core/habuggygame.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (defaultTargetPlatform == TargetPlatform.android ||
       defaultTargetPlatform == TargetPlatform.iOS) {
-    Flame.device.fullScreen();
-    Flame.device.setLandscape();
+    await Flame.device.fullScreen();
+    await Flame.device.setLandscape();
   }
 
-  var game = HardBuggyGame();
+  HardBuggyGame game = HardBuggyGame();
   runApp(
     GameWidget(game: kDebugMode ? HardBuggyGame() : game, overlayBuilderMap: {
       'pause': (context, game) {

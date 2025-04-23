@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="1">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="4">
  <tileset firstgid="1" source="addwork.tsx"/>
  <layer id="1" name="ground" width="30" height="20">
   <data encoding="csv">
@@ -73,4 +73,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="5" name="spawnpoints">
+  <object id="3" name="Player" type="Player" x="105.619" y="297.529" width="32" height="32"/>
+ </objectgroup>
 </map>

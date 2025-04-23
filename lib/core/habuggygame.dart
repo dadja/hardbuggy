@@ -4,6 +4,7 @@ import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/material.dart';
 import 'package:hardbuggy/core/component/player.dart';
 import 'package:hardbuggy/worlds/world/levels/level.dart';
 
@@ -16,26 +17,106 @@ class HardBuggyGame extends FlameGame
   @override
   Color backgroundColor() => const Color(0xFF000000);
 
-  Player player = Player();
+  late JoystickComponent joystick;
+  bool showJoyStick = true;
+
   List<String> levelNames = [
-    'Level-01.tmx',
-    'Level-02.tmx',
-    'Level-03.tmx',
+    'Level-01',
+    'Level-02',
+    'Level-03',
   ];
   int currentLevelIndex = 2;
+  Player player = Player();
 
   @override
   Future<void> onLoad() async {
     //this is to keep images in cache once all loaded
     await images.loadAllImages();
-    world = Level(levelName: levelNames[currentLevelIndex], player: player);
     camera.viewfinder.anchor = Anchor.center;
     camera.viewport = FixedResolutionViewport(resolution: Vector2(800, 600));
+    // camera.setBounds(bounds: Rect.fromLTRB(0, 0, 800, 600));
+    if (showJoyStick) addJoyStick();
+    loadLevel();
 
-    player.position = Vector2(400, 100);
-    player.size = Vector2(32, 32);
-    player.anchor = Anchor.topLeft;
-    camera.follow(player);
     return super.onLoad();
+  }
+
+  @override
+  update(double dt) {
+    if (showJoyStick) {
+      updateJoyStick();
+      // player.update(dt);
+    }
+    super.update(dt);
+  }
+
+  loadLevel() {
+    if (currentLevelIndex < levelNames.length) {
+      world = Level(
+        player: player,
+        levelName: '${levelNames[currentLevelIndex]}.tmx',
+        joystick: joystick,
+      );
+      currentLevelIndex++;
+    } else {
+      // Handle game completion or reset logic here
+    }
+  }
+
+  void addJoyStick() {
+    joystick = JoystickComponent(
+      size: 100,
+      knob: CircleComponent(
+          radius: 20, paint: Paint()..color = const Color(0xFF00FF00)),
+      background: CircleComponent(
+          radius: 40, paint: Paint()..color = const Color(0xFF0000FF)),
+      margin: EdgeInsets.only(left: 20, bottom: 20),
+    );
+    camera.viewport.add(joystick);
+  }
+
+  void updateJoyStick() {
+    switch (joystick.direction) {
+      case JoystickDirection.up:
+        player.playerDirection = PlayerDirection.up;
+        player.isFacingTop = true;
+        player.velocity = Vector2(0, -1);
+        break;
+      case JoystickDirection.down:
+        player.playerDirection = PlayerDirection.down;
+        player.isFacingTop = false;
+        player.velocity = Vector2(0, 1);
+        break;
+      case JoystickDirection.left:
+      case JoystickDirection.upLeft:
+      case JoystickDirection.downLeft:
+        player.playerDirection = PlayerDirection.left;
+        player.isFacingRight = false;
+        player.velocity = Vector2(-1, 0);
+        break;
+      case JoystickDirection.right:
+      case JoystickDirection.upRight:
+      case JoystickDirection.downRight:
+        player.playerDirection = PlayerDirection.right;
+        player.isFacingRight = true;
+        player.velocity = Vector2(1, 0);
+        break;
+      // case JoystickDirection.none:
+      // player.move(Vector2(0, 0));
+      // player.velocity = Vector2.zero();
+      // break;
+      case JoystickDirection.idle:
+        player.playerDirection = PlayerDirection.none;
+        player.isFacingRight = true;
+        player.isFacingTop = false;
+        player.velocity = Vector2.zero();
+        break;
+      // default:
+      //   player.playerDirection = PlayerDirection.none;
+      //   player.isFacingRight = true;
+      //   player.isFacingTop = false;
+      //   // player.move(Vector2(0, 0));
+      //   break;
+    }
   }
 }
