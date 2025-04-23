@@ -35,8 +35,12 @@ class Player extends SpriteAnimationGroupComponent
   Vector2 startingPosition = Vector2.zero();
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 0;
+  Vector2 velocity = Vector2.zero();
+  PlayerDirection direction = PlayerDirection.down;
+  PlayerState state = PlayerState.walking;
+  PlayerAction action = PlayerAction.attack;
 
-  Player({position}) : super(position: position, size: Vector2(32, 32));
+  Player() : super(size: Vector2(32, 32));
 
   @override
   FutureOr<void> onLoad() {
