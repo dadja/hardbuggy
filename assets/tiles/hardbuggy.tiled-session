@@ -1,0 +1,60 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "Level-01.tmx": {
+            "scale": 1.8920833333333333,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 276.4148865888571,
+                "y": 227.26271746311386
+            }
+        },
+        "Level-02.tmx": {
+            "scale": 1.1291145833333331,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 480.0221412426774,
+                "y": 308.20609806725406
+            }
+        },
+        "Level-03.tmx": {
+            "scale": 1.1291145833333331,
+            "selectedLayer": 2,
+            "viewCenter": {
+                "x": 480.0221412426774,
+                "y": 319.7195442594217
+            }
+        },
+        "addwork.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "level.tmx": {
+            "scale": 1.89,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 276.19047619047626,
+                "y": 226.98412698412704
+            }
+        }
+    },
+    "last.imagePath": "/Users/dadja/code/games/flutter/hardbuggy/assets/images",
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+    ],
+    "project": "hardbuggy.tiled-project",
+    "recentFiles": [
+        "addwork.tsx",
+        "level.tmx",
+        "Level-01.tmx",
+        "Level-02.tmx",
+        "Level-03.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
