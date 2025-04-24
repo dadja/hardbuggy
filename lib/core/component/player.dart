@@ -42,6 +42,9 @@ class Player extends SpriteAnimationGroupComponent
   bool isFacingRight = true;
   bool isFacingTop = false;
 
+  int horizontalMovement = 0;
+  int verticalMovement = 0;
+
   Player({position}) : super(position: position, size: Vector2(32, 32));
 
   @override
@@ -72,26 +75,33 @@ class Player extends SpriteAnimationGroupComponent
             keysPressed.contains(LogicalKeyboardKey.keyS);
 
     if (isLeftKeyPressed && isRightKeyPressed) {
-      velocity = Vector2.zero();
+      horizontalMovement = 0;
+      verticalMovement = 0;
     }
     if (isDownKeyPressed && isUpKeyPressed) {
-      velocity = Vector2.zero();
+      horizontalMovement = 0;
+      verticalMovement = 0;
     }
     if (isLeftKeyPressed) {
       playerDirection = PlayerDirection.left;
-      velocity = Vector2(-1, 0);
+      horizontalMovement = -1;
+      verticalMovement = 0;
     } else if (isRightKeyPressed) {
       playerDirection = PlayerDirection.right;
-      velocity = Vector2(1, 0);
+      horizontalMovement = 1;
+      verticalMovement = 0;
     } else if (isUpKeyPressed) {
       playerDirection = PlayerDirection.up;
-      velocity = Vector2(0, -1);
+      horizontalMovement = 0;
+      verticalMovement = -1;
     } else if (isDownKeyPressed) {
       playerDirection = PlayerDirection.down;
-      velocity = Vector2(0, 1);
+      horizontalMovement = 0;
+      verticalMovement = 1;
     } else {
       playerDirection = PlayerDirection.none;
-      velocity = Vector2.zero();
+      horizontalMovement = 0;
+      verticalMovement = 0;
     }
     return super.onKeyEvent(event, keysPressed);
   }
@@ -167,6 +177,8 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _updatePlayerMovement(double dt) {
+    velocity =
+        Vector2(horizontalMovement.toDouble(), verticalMovement.toDouble());
     //let the player move around ...
     position += velocity * moveSpeed * dt;
     if (velocity == Vector2.zero()) {

@@ -45,7 +45,6 @@ class HardBuggyGame extends FlameGame
   update(double dt) {
     if (showJoyStick) {
       updateJoyStick();
-      // player.update(dt);
     }
     super.update(dt);
   }
@@ -55,7 +54,6 @@ class HardBuggyGame extends FlameGame
       world = Level(
         player: player,
         levelName: '${levelNames[currentLevelIndex]}.tmx',
-        joystick: joystick,
       );
       currentLevelIndex++;
     } else {
@@ -80,43 +78,38 @@ class HardBuggyGame extends FlameGame
       case JoystickDirection.up:
         player.playerDirection = PlayerDirection.up;
         player.isFacingTop = true;
-        player.velocity = Vector2(0, -1);
+        player.horizontalMovement = 0;
+        player.verticalMovement = -1;
         break;
       case JoystickDirection.down:
         player.playerDirection = PlayerDirection.down;
         player.isFacingTop = false;
-        player.velocity = Vector2(0, 1);
+        player.horizontalMovement = 0;
+        player.verticalMovement = 1;
         break;
       case JoystickDirection.left:
       case JoystickDirection.upLeft:
       case JoystickDirection.downLeft:
         player.playerDirection = PlayerDirection.left;
         player.isFacingRight = false;
-        player.velocity = Vector2(-1, 0);
+        player.horizontalMovement = -1;
+        player.verticalMovement = 0;
         break;
       case JoystickDirection.right:
       case JoystickDirection.upRight:
       case JoystickDirection.downRight:
         player.playerDirection = PlayerDirection.right;
         player.isFacingRight = true;
-        player.velocity = Vector2(1, 0);
+        player.horizontalMovement = 1;
+        player.verticalMovement = 0;
         break;
-      // case JoystickDirection.none:
-      // player.move(Vector2(0, 0));
-      // player.velocity = Vector2.zero();
-      // break;
       case JoystickDirection.idle:
         player.playerDirection = PlayerDirection.none;
         player.isFacingRight = true;
         player.isFacingTop = false;
-        player.velocity = Vector2.zero();
+        player.horizontalMovement = 0;
+        player.verticalMovement = 0;
         break;
-      // default:
-      //   player.playerDirection = PlayerDirection.none;
-      //   player.isFacingRight = true;
-      //   player.isFacingTop = false;
-      //   // player.move(Vector2(0, 0));
-      //   break;
     }
   }
 }

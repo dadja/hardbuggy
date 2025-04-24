@@ -10,11 +10,9 @@ class Level extends World with HasGameReference<HardBuggyGame> {
   final String levelName;
   final Player player;
   late TiledComponent level;
-  final JoystickComponent joystick;
   final String objectGroupLayerName = 'spawnpoints';
 
-  Level(
-      {required this.levelName, required this.player, required this.joystick});
+  Level({required this.levelName, required this.player});
 
   @override
   FutureOr<void> onLoad() async {
