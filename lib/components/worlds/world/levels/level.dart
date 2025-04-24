@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame_tiled/flame_tiled.dart';
-import 'package:hardbuggy/core/component/player.dart';
-import 'package:hardbuggy/core/habuggygame.dart';
+import 'package:hardbuggy/components/player.dart';
+
+import 'package:hardbuggy/habuggygame.dart';
 
 class Level extends World with HasGameReference<HardBuggyGame> {
   final String levelName;

@@ -1,12 +1,10 @@
-import 'dart:ui';
-
 import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
-import 'package:hardbuggy/core/component/player.dart';
-import 'package:hardbuggy/worlds/world/levels/level.dart';
+import 'package:hardbuggy/components/worlds/world/levels/level.dart';
+import 'package:hardbuggy/components/player.dart';
 
 class HardBuggyGame extends FlameGame
     with
