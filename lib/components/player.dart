@@ -3,7 +3,8 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
-import 'package:hardbuggy/core/habuggygame.dart';
+import 'package:hardbuggy/core/assetspath.dart';
+import 'package:hardbuggy/habuggygame.dart';
 
 enum PlayerAnimation {
   walkLeft,
@@ -107,7 +108,7 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _loadAllAnimations() {
-    spriteSheet = game.images.fromCache('player_128.png');
+    spriteSheet = game.images.fromCache(AssetsPaths.playerPath);
     //walkLeft Animation
     walkLeftAnimation = SpriteAnimation.fromFrameData(
       spriteSheet,
