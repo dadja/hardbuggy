@@ -2,7 +2,12 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hardbuggy/habuggygame.dart';
+
+import 'audio/audio_controller.dart';
+import 'audio/data/audio_repository_impl.dart';
+import 'audio/presentation/bloc/audio_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,9 +17,28 @@ void main() async {
     await Flame.device.setLandscape();
   }
 
-  HardBuggyGame game = HardBuggyGame();
+  final audioRepository = AudioRepositoryImpl();
+
   runApp(
-    GameWidget(game: kDebugMode ? HardBuggyGame() : game, overlayBuilderMap: {
+    MultiBlocProvider(
+      providers: [
+        BlocProvider<AudioBloc>(
+          create: (_) => AudioBloc(audioRepository: audioRepository),
+        ),
+      ],
+      child: GameWrapper(),
+    ),
+  );
+}
+
+class GameWrapper extends StatelessWidget {
+  const GameWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<AudioBloc>(context);
+    final controller = AudioController(bloc);
+    return GameWidget(game: HardBuggyGame(controller), overlayBuilderMap: {
       'pause': (context, game) {
         return const Center(
           child: Text(
@@ -63,6 +87,6 @@ void main() async {
           ),
         );
       },
-    }),
-  );
+    });
+  }
 }

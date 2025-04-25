@@ -2,10 +2,11 @@ import 'package:flame/camera.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:hardbuggy/components/worlds/world/levels/level.dart';
 import 'package:hardbuggy/components/player.dart';
+
+import 'audio/audio_controller.dart';
 
 class HardBuggyGame extends FlameGame
     with
@@ -13,6 +14,11 @@ class HardBuggyGame extends FlameGame
         DragCallbacks,
         HasCollisionDetection,
         TapCallbacks {
+
+  final AudioController audioController;
+
+  HardBuggyGame(this.audioController);
+
   @override
   Color backgroundColor() => const Color(0xFF000000);
 
@@ -29,7 +35,7 @@ class HardBuggyGame extends FlameGame
 
   @override
   Future<void> onLoad() async {
-    startBgmMusic();
+    audioController.playBgm();
     //this is to keep images in cache once all loaded
     await images.loadAllImages();
     camera.viewfinder.anchor = Anchor.center;
@@ -39,12 +45,6 @@ class HardBuggyGame extends FlameGame
     loadLevel();
 
     return super.onLoad();
-  }
-
-  Future<void> startBgmMusic() async {
-    await FlameAudio.bgm.initialize();
-    await FlameAudio.audioCache.load('music/music.mp3');
-    await FlameAudio.bgm.play('music/music.mp3');
   }
 
   @override
@@ -117,5 +117,13 @@ class HardBuggyGame extends FlameGame
         player.verticalMovement = 0;
         break;
     }
+  }
+
+  void onPause() {
+    audioController.stopBgm();
+  }
+
+  void onResume() {
+    audioController.playBgm();
   }
 }

@@ -17,6 +17,8 @@ dependencies:
   flame_audio: ^2.11.4
   flame_tiled: ^3.0.1
   flame_jenny: ^1.0.0
+  equatable: ^2.0.7
+  flutter_bloc: ^9.1.0
 
 dev_dependencies:
   flutter_test:
