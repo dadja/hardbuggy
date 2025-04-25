@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
-import 'package:hardbuggy/core/assetspath.dart';
+import 'package:hardbuggy/assetspath.dart';
 import 'package:hardbuggy/habuggygame.dart';
 
 enum PlayerAnimation {
