@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/audio_repository.dart';
+import '../../domain/repositories/audio_repository.dart';
 import 'audio_event.dart';
 import 'audio_state.dart';
 
@@ -7,16 +7,16 @@ class AudioBloc extends Bloc<AudioEvent, AudioState> {
   final AudioRepository audioRepository;
 
   AudioBloc({required this.audioRepository}) : super(AudioState.initial()) {
-    on<PlayBgm>((event, emit) async {
-      await audioRepository.playBackgroundMusic();
+    on<PlayMusic>((event, emit) async {
+      await audioRepository.playMusic(type: event.type);
     });
 
-    on<StopBgm>((event, emit) async {
-      await audioRepository.stopBackgroundMusic();
+    on<StopMusic>((event, emit) async {
+      await audioRepository.stopMusic();
     });
 
     on<PlaySfx>((event, emit) async {
-      await audioRepository.playSfx(event.fileName);
+      await audioRepository.playSfx(type: event.type);
     });
 
     on<MuteAudio>((event, emit) async {

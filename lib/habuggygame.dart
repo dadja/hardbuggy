@@ -7,6 +7,7 @@ import 'package:hardbuggy/components/worlds/world/levels/level.dart';
 import 'package:hardbuggy/components/player.dart';
 
 import 'audio/audio_controller.dart';
+import 'audio/domain/entities/sfx_type.dart';
 
 class HardBuggyGame extends FlameGame
     with
@@ -35,7 +36,7 @@ class HardBuggyGame extends FlameGame
 
   @override
   Future<void> onLoad() async {
-    audioController.playBgm();
+    audioController.playMusic();
     //this is to keep images in cache once all loaded
     await images.loadAllImages();
     camera.viewfinder.anchor = Anchor.center;
@@ -119,11 +120,19 @@ class HardBuggyGame extends FlameGame
     }
   }
 
+  void onPlayerHit() {
+    audioController.playSfx(type: SfxType.hit);
+  }
+
+  void onCoinCollected() {
+    audioController.playSfx(type: SfxType.coin);
+  }
+
   void onPause() {
-    audioController.stopBgm();
+    audioController.stopMusic();
   }
 
   void onResume() {
-    audioController.playBgm();
+    audioController.playMusic();
   }
 }
