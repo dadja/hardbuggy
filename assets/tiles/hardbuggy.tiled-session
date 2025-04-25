@@ -5,6 +5,7 @@
     },
     "activeFile": "",
     "expandedProjectPaths": [
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
@@ -48,6 +49,7 @@
     "last.imagePath": "/Users/dadja/code/games/flutter/hardbuggy/assets/images",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
+        "/Users/mouradmohamedfarouk/Desktop/assets_hardbuggy/addwork.tsx"
     ],
     "project": "hardbuggy.tiled-project",
     "recentFiles": [
