@@ -1,17 +1,15 @@
 import 'dart:async';
-
 import 'package:flame/components.dart';
-import 'package:flame/input.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:hardbuggy/components/player.dart';
-
 import 'package:hardbuggy/habuggygame.dart';
 
 class Level extends World with HasGameReference<HardBuggyGame> {
   final String levelName;
   final Player player;
   late TiledComponent level;
-  final String objectGroupLayerName = 'spawnpoints';
+  final String playerObjectGroupLayerName = 'spawnpoints';
+  final String collisionsObjectGroupLayerName = 'collisions';
 
   Level({required this.levelName, required this.player});
 
@@ -19,7 +17,9 @@ class Level extends World with HasGameReference<HardBuggyGame> {
   FutureOr<void> onLoad() async {
     level = await TiledComponent.load(levelName, Vector2.all(32));
     final spawnPointLayer =
-        level.tileMap.getLayer<ObjectGroup>(objectGroupLayerName);
+        level.tileMap.getLayer<ObjectGroup>(playerObjectGroupLayerName);
+    final collisionLayer =
+        level.tileMap.getLayer<ObjectGroup>(collisionsObjectGroupLayerName);
 
     for (final spawnPoint in spawnPointLayer!.objects) {
       switch (spawnPoint.class_) {
