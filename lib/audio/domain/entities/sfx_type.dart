@@ -1,0 +1,4 @@
+enum SfxType {
+  hit,
+  coin,
+}

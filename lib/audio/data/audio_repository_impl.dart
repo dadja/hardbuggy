@@ -1,31 +1,51 @@
 import 'dart:math';
 
 import 'package:flame_audio/flame_audio.dart';
-import '../domain/audio_repository.dart';
+import 'package:hardbuggy/audio/domain/entities/sfx_type.dart';
+import '../domain/entities/music_type.dart';
+import '../domain/repositories/audio_repository.dart';
 
 class AudioRepositoryImpl implements AudioRepository {
   bool _muted = false;
-  final List<String> _bgmTracks = ['music.mp3', 'music.mp3', 'music.mp3'];
-
   final Random _random = Random();
+  final Map<MusicType, List<String>> _musicTracks = {
+    MusicType.menu: ['menu1.mp3'],
+    MusicType.game: ['game1.mp3', 'game2.mp3'],
+    MusicType.win: ['win1.mp3'],
+    MusicType.lose: ['lose1.mp3'],
+  };
+
+  final Map<SfxType, List<String>> _sfxTracks = {
+    SfxType.hit: ['hit1.wav', 'hit2.wav'],
+    SfxType.coin: ['coin1.wav', 'coin2.wav'],
+  };
 
   @override
-  Future<void> playBackgroundMusic() async {
+  Future<void> playMusic({MusicType type = MusicType.game}) async {
     if (_muted) return;
+
     await FlameAudio.bgm.initialize();
-    final track = _bgmTracks[_random.nextInt(_bgmTracks.length)];
-    await FlameAudio.bgm.play("music/$track");
+    final tracks = _musicTracks[type];
+    if (tracks != null && tracks.isNotEmpty) {
+      final track = tracks[_random.nextInt(tracks.length)];
+      await FlameAudio.bgm.play("music/$track");
+    }
   }
 
   @override
-  Future<void> stopBackgroundMusic() async {
+  Future<void> stopMusic() async {
     await FlameAudio.bgm.stop();
   }
 
   @override
-  Future<void> playSfx(String fileName) async {
+  Future<void> playSfx({required SfxType type}) async {
     if (_muted) return;
-    await FlameAudio.play(fileName);
+
+    final tracks = _sfxTracks[type];
+    if (tracks != null && tracks.isNotEmpty) {
+      final sfx = tracks[_random.nextInt(tracks.length)];
+      await FlameAudio.play("sfx/$sfx");
+    }
   }
 
   @override
@@ -37,6 +57,6 @@ class AudioRepositoryImpl implements AudioRepository {
   @override
   Future<void> unMuteAll() async {
     _muted = false;
-    await playBackgroundMusic();
+    await playMusic();
   }
 }

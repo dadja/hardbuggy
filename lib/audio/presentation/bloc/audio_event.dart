@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:hardbuggy/audio/domain/entities/music_type.dart';
+import 'package:hardbuggy/audio/domain/entities/sfx_type.dart';
 
 abstract class AudioEvent extends Equatable {
   const AudioEvent();
@@ -7,17 +9,22 @@ abstract class AudioEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class PlayBgm extends AudioEvent {}
-
-class StopBgm extends AudioEvent {}
-
-class PlaySfx extends AudioEvent {
-  final String fileName;
-
-  const PlaySfx(this.fileName);
+class PlayMusic extends AudioEvent {
+  final MusicType type;
+  const PlayMusic(this.type);
 
   @override
-  List<Object> get props => [fileName];
+  List<Object> get props => [type];
+}
+
+class StopMusic extends AudioEvent {}
+
+class PlaySfx extends AudioEvent {
+  final SfxType type;
+  const PlaySfx(this.type);
+
+  @override
+  List<Object> get props => [type];
 }
 
 class MuteAudio extends AudioEvent {}
