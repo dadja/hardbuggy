@@ -33,7 +33,7 @@ class HardBuggyGame extends FlameGame
     margin: EdgeInsets.only(left: 20, bottom: 20),
   );
 
-  bool showJoyStick = true;
+  bool showJoyStick = false;
 
   bool hasStarted = false;
 

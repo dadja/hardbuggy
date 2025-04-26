@@ -3,3 +3,8 @@ class AssetsPaths {
   // static const String marioPath = 'mario.png';
   // static const String backgroundPath = 'background.png';
 }
+
+class TileMapLayers {
+  static const String playerObjectGroupLayerName = 'spawnpoints';
+  static const String collisionsObjectGroupLayerName = 'collisions';
+}

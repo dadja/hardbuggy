@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="2">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="17">
  <tileset firstgid="1" source="addwork.tsx"/>
  <layer id="1" name="ground" width="30" height="20">
   <data encoding="csv">
@@ -75,5 +75,22 @@
  </layer>
  <objectgroup id="4" name="spawnpoints">
   <object id="1" name="Player" type="Player" x="224" y="256" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup color="#ea3c25" id="5" name="collisions">
+  <object id="2" name="leftWall" x="-15.515" y="-13.1281" width="44.158" height="664.757"/>
+  <object id="3" x="11.9346" y="115.766"/>
+  <object id="4" name="topWall" x="-42.9646" y="-33.4169" width="1033.54" height="63.2534"/>
+  <object id="5" name="rightWall" x="924.931" y="-51.3188" width="72.8011" height="717.269"/>
+  <object id="6" name="botWall" x="-42.2548" y="606.851" width="1050.08" height="75.5192"/>
+  <object id="7" name="seed" x="97.0346" y="96.6036" width="63.95" height="31.7674"/>
+  <object id="8" name="seed" x="257.404" y="65.5373" width="63.95" height="31.7674"/>
+  <object id="9" name="seed" x="351.862" y="224.647" width="63.95" height="31.7674"/>
+  <object id="10" name="seed" x="193.592" y="319.526" width="63.95" height="31.7674"/>
+  <object id="11" name="deadtree" x="321.145" y="128.535" width="30.3965" height="62.9956"/>
+  <object id="12" name="deadtree" x="97.5999" y="289.003" width="30.3965" height="62.9956"/>
+  <object id="13" name="deadtree" x="288.345" y="353.594" width="30.3965" height="62.9956"/>
+  <object id="14" name="deadtree" x="161.686" y="480.758" width="30.3965" height="62.9956"/>
+  <object id="15" name="deadtree2" x="671.121" y="257.516" width="66.8084" height="30.9748"/>
+  <object id="16" name="deadtree2" x="672.943" y="384.452" width="66.8084" height="30.9748"/>
  </objectgroup>
 </map>
