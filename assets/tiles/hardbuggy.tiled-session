@@ -34,15 +34,15 @@
             }
         },
         "Level-04.tmx": {
-            "scale": 0.8355,
-            "selectedLayer": 3,
+            "scale": 1.0175,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 383.0041891083184,
-                "y": 248.35427887492523
+                "x": 482.55528255528253,
+                "y": 314.004914004914
             }
         },
         "addwork.tsx": {
-            "scaleInDock": 1,
+            "scaleInDock": 1.6477,
             "scaleInEditor": 1
         },
         "level.tmx": {

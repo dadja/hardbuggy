@@ -7,7 +7,9 @@ import 'package:hardbuggy/components/worlds/world/levels/level.dart';
 import 'package:hardbuggy/components/player.dart';
 
 import 'audio/audio_controller.dart';
+import 'audio/domain/entities/music_type.dart';
 import 'audio/domain/entities/sfx_type.dart';
+import 'menu/domain/entities/menu_type.dart';
 
 class HardBuggyGame extends FlameGame
     with
@@ -15,7 +17,6 @@ class HardBuggyGame extends FlameGame
         DragCallbacks,
         HasCollisionDetection,
         TapCallbacks {
-
   final AudioController audioController;
 
   HardBuggyGame(this.audioController);
@@ -23,8 +24,18 @@ class HardBuggyGame extends FlameGame
   @override
   Color backgroundColor() => const Color(0xFF000000);
 
-  late JoystickComponent joystick;
+  static JoystickComponent joystick = JoystickComponent(
+    size: 100,
+    knob: CircleComponent(
+        radius: 20, paint: Paint()..color = const Color(0xFF00FF00)),
+    background: CircleComponent(
+        radius: 40, paint: Paint()..color = const Color(0xFF0000FF)),
+    margin: EdgeInsets.only(left: 20, bottom: 20),
+  );
+
   bool showJoyStick = true;
+
+  bool hasStarted = false;
 
   List<String> levelNames = [
     'Level-01',
@@ -38,14 +49,7 @@ class HardBuggyGame extends FlameGame
   @override
   Future<void> onLoad() async {
     audioController.playMusic();
-    //this is to keep images in cache once all loaded
-    await images.loadAllImages();
-    camera.viewfinder.anchor = Anchor.center;
-    camera.viewport = FixedResolutionViewport(resolution: Vector2(800, 600));
-    // camera.setBounds(bounds: Rect.fromLTRB(0, 0, 800, 600));
-    if (showJoyStick) addJoyStick();
-    loadLevel();
-
+    overlays.add(MenuType.main.name);
     return super.onLoad();
   }
 
@@ -67,18 +71,6 @@ class HardBuggyGame extends FlameGame
     } else {
       // Handle game completion or reset logic here
     }
-  }
-
-  void addJoyStick() {
-    joystick = JoystickComponent(
-      size: 100,
-      knob: CircleComponent(
-          radius: 20, paint: Paint()..color = const Color(0xFF00FF00)),
-      background: CircleComponent(
-          radius: 40, paint: Paint()..color = const Color(0xFF0000FF)),
-      margin: EdgeInsets.only(left: 20, bottom: 20),
-    );
-    camera.viewport.add(joystick);
   }
 
   void updateJoyStick() {
@@ -135,5 +127,20 @@ class HardBuggyGame extends FlameGame
 
   void onResume() {
     audioController.playMusic();
+  }
+
+  Future<void> startGame() async {
+    if (!hasStarted) {
+      overlays.remove(MenuType.main.name);
+      audioController.playMusic(type: MusicType.game);
+      hasStarted = true;
+      //this is to keep images in cache once all loaded
+      await images.loadAllImages();
+      camera.viewfinder.anchor = Anchor.center;
+      camera.viewport = FixedResolutionViewport(resolution: Vector2(800, 600));
+      // camera.setBounds(bounds: Rect.fromLTRB(0, 0, 800, 600));
+      if (showJoyStick) camera.viewport.add(joystick);
+      loadLevel();
+    }
   }
 }
