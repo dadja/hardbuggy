@@ -4,6 +4,7 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:hardbuggy/assetspath.dart';
+import 'package:hardbuggy/components/collision_block.dart';
 import 'package:hardbuggy/habuggygame.dart';
 
 enum PlayerAnimation {
@@ -42,15 +43,27 @@ class Player extends SpriteAnimationGroupComponent
   PlayerDirection playerDirection = PlayerDirection.none;
   bool isFacingRight = true;
   bool isFacingTop = false;
+  List<CollisionBlock> collisionBlocks = [];
+  bool isLeftKeyPressed = false;
+  bool isRightKeyPressed = false;
+  bool isUpKeyPressed = false;
+  bool isDownKeyPressed = false;
 
   int horizontalMovement = 0;
   int verticalMovement = 0;
 
-  Player({position}) : super(position: position, size: Vector2(32, 32));
+  Player({position})
+      : super(
+            position: position, size: Vector2(32, 32), anchor: Anchor.topLeft) {
+    debugMode = true;
+  }
 
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
+    debugMode = true;
+    add(RectangleHitbox());
+    //add player rectangle hitbox..
     return super.onLoad();
   }
 
@@ -63,47 +76,15 @@ class Player extends SpriteAnimationGroupComponent
   @override
   bool onKeyEvent(KeyEvent event, Set<LogicalKeyboardKey> keysPressed) {
     if (game.showJoyStick) return false;
-    final isLeftKeyPressed =
-        keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
-            keysPressed.contains(LogicalKeyboardKey.keyA);
-    final isRightKeyPressed =
-        keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
-            keysPressed.contains(LogicalKeyboardKey.keyD);
-    final isUpKeyPressed = keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
+    isLeftKeyPressed = keysPressed.contains(LogicalKeyboardKey.arrowLeft) ||
+        keysPressed.contains(LogicalKeyboardKey.keyA);
+    isRightKeyPressed = keysPressed.contains(LogicalKeyboardKey.arrowRight) ||
+        keysPressed.contains(LogicalKeyboardKey.keyD);
+    isUpKeyPressed = keysPressed.contains(LogicalKeyboardKey.arrowUp) ||
         keysPressed.contains(LogicalKeyboardKey.keyW);
-    final isDownKeyPressed =
-        keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
-            keysPressed.contains(LogicalKeyboardKey.keyS);
+    isDownKeyPressed = keysPressed.contains(LogicalKeyboardKey.arrowDown) ||
+        keysPressed.contains(LogicalKeyboardKey.keyS);
 
-    if (isLeftKeyPressed && isRightKeyPressed) {
-      horizontalMovement = 0;
-      verticalMovement = 0;
-    }
-    if (isDownKeyPressed && isUpKeyPressed) {
-      horizontalMovement = 0;
-      verticalMovement = 0;
-    }
-    if (isLeftKeyPressed) {
-      playerDirection = PlayerDirection.left;
-      horizontalMovement = -1;
-      verticalMovement = 0;
-    } else if (isRightKeyPressed) {
-      playerDirection = PlayerDirection.right;
-      horizontalMovement = 1;
-      verticalMovement = 0;
-    } else if (isUpKeyPressed) {
-      playerDirection = PlayerDirection.up;
-      horizontalMovement = 0;
-      verticalMovement = -1;
-    } else if (isDownKeyPressed) {
-      playerDirection = PlayerDirection.down;
-      horizontalMovement = 0;
-      verticalMovement = 1;
-    } else {
-      playerDirection = PlayerDirection.none;
-      horizontalMovement = 0;
-      verticalMovement = 0;
-    }
     return super.onKeyEvent(event, keysPressed);
   }
 
@@ -178,6 +159,56 @@ class Player extends SpriteAnimationGroupComponent
   }
 
   void _updatePlayerMovement(double dt) {
+    //nullifiy the movement if both keys are pressed
+    if (isLeftKeyPressed && isRightKeyPressed) {
+      horizontalMovement = 0;
+      verticalMovement = 0;
+    }
+    if (isDownKeyPressed && isUpKeyPressed) {
+      horizontalMovement = 0;
+      verticalMovement = 0;
+    }
+
+    // this is to prevent the player from moving diagonally
+    if (isLeftKeyPressed && isUpKeyPressed) {
+      playerDirection = PlayerDirection.left;
+      horizontalMovement = 0;
+      verticalMovement = 0;
+    } else if (isLeftKeyPressed && isDownKeyPressed) {
+      playerDirection = PlayerDirection.left;
+      horizontalMovement = 0;
+      verticalMovement = 0;
+    } else if (isRightKeyPressed && isUpKeyPressed) {
+      playerDirection = PlayerDirection.right;
+      horizontalMovement = 0;
+      verticalMovement = 0;
+    } else if (isRightKeyPressed && isDownKeyPressed) {
+      playerDirection = PlayerDirection.right;
+      horizontalMovement = 0;
+      verticalMovement = 0;
+    }
+
+    if (isLeftKeyPressed) {
+      playerDirection = PlayerDirection.left;
+      horizontalMovement = -1;
+      verticalMovement = 0;
+    } else if (isRightKeyPressed) {
+      playerDirection = PlayerDirection.right;
+      horizontalMovement = 1;
+      verticalMovement = 0;
+    } else if (isUpKeyPressed) {
+      playerDirection = PlayerDirection.up;
+      horizontalMovement = 0;
+      verticalMovement = -1;
+    } else if (isDownKeyPressed) {
+      playerDirection = PlayerDirection.down;
+      horizontalMovement = 0;
+      verticalMovement = 1;
+    } else {
+      playerDirection = PlayerDirection.none;
+      horizontalMovement = 0;
+      verticalMovement = 0;
+    }
     velocity =
         Vector2(horizontalMovement.toDouble(), verticalMovement.toDouble());
     //let the player move around ...
@@ -202,5 +233,45 @@ class Player extends SpriteAnimationGroupComponent
           break;
       }
     }
+  }
+
+//collisions
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    super.onCollision(intersectionPoints, other);
+    var gap = 16;
+    if (other is CollisionBlock) {
+      // Handle collision with the block
+      print('Collision with block detected');
+      // You can add logic to stop the player or change its direction here
+      // For example, you can set the player's position to avoid going through the block
+      // position += velocity * moveSpeed * fixedDeltaTime;
+      if (horizontalMovement < 0) {
+        // Moving left, adjust position to the right of the block
+        position.x = other.x + other.width + gap;
+      } else if (horizontalMovement > 0) {
+        // Moving right, adjust position to the left of the block
+        position.x = other.x - size.x + gap;
+      } else if (verticalMovement < 0) {
+        // Moving up, adjust position to the bottom of the block
+        position.y = other.y + other.height + gap;
+      } else if (verticalMovement > 0) {
+        // Moving down, adjust position to the top of the block
+        position.y = other.y - size.y + gap;
+      }
+    } else {
+      print('Collision with other object detected');
+    }
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    if (other is CollisionBlock) {
+      // Handle end of collision with the block
+      print('Collision with block ended');
+    } else {
+      print('Collision with other object ended');
+    }
+    super.onCollisionEnd(other);
   }
 }
