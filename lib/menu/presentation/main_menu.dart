@@ -1,5 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hardbuggy/theme/pallet_color.dart';
 
 import 'widgets/space_button.dart';
 
@@ -28,7 +28,7 @@ class MainMenu extends StatelessWidget {
                 angle: -0.1,
                 child: ShaderMask(
                   shaderCallback: (bounds) => LinearGradient(
-                    colors: [Color(0xFF044569), Color(0xFFc774b2)],
+                    colors: [PalletColor.primaryColor, PalletColor.secondaryColor],
                   ).createShader(bounds),
                   child: Text(
                     'HardBuggy',

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hardbuggy/theme/pallet_color.dart';
 
 class SpaceButton extends StatefulWidget {
   final String text;
@@ -49,7 +50,7 @@ class _SpaceButtonState extends State<SpaceButton>
             bottomRight: Radius.circular(10),
           ),
           gradient: const LinearGradient(
-            colors: [Color(0xFF044569), Color(0xFFc774b2)],
+            colors: [PalletColor.primaryColor, PalletColor.secondaryColor],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

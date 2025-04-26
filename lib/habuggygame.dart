@@ -5,6 +5,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:hardbuggy/components/worlds/world/levels/level.dart';
 import 'package:hardbuggy/components/player.dart';
+import 'package:hardbuggy/theme/pallet_color.dart';
 
 import 'audio/audio_controller.dart';
 import 'audio/domain/entities/music_type.dart';
@@ -27,9 +28,9 @@ class HardBuggyGame extends FlameGame
   static JoystickComponent joystick = JoystickComponent(
     size: 100,
     knob: CircleComponent(
-        radius: 20, paint: Paint()..color = const Color(0xFF00FF00)),
+        radius: 20, paint: Paint()..color = PalletColor.secondaryColor),
     background: CircleComponent(
-        radius: 40, paint: Paint()..color = const Color(0xFF0000FF)),
+        radius: 40, paint: Paint()..color = PalletColor.primaryColor),
     margin: EdgeInsets.only(left: 20, bottom: 20),
   );
 
