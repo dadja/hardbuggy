@@ -15,7 +15,6 @@ class HardBuggyGame extends FlameGame
         DragCallbacks,
         HasCollisionDetection,
         TapCallbacks {
-
   final AudioController audioController;
 
   HardBuggyGame(this.audioController);
@@ -24,7 +23,7 @@ class HardBuggyGame extends FlameGame
   Color backgroundColor() => const Color(0xFF000000);
 
   late JoystickComponent joystick;
-  bool showJoyStick = true;
+  bool showJoyStick = false;
 
   List<String> levelNames = [
     'Level-01',

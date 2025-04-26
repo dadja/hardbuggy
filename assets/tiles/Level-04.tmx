@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="5">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="20">
  <tileset firstgid="1" source="addwork.tsx"/>
  <layer id="1" name="background" width="30" height="20">
   <data encoding="csv">
@@ -54,5 +54,17 @@
  </layer>
  <objectgroup color="#e53329" id="5" name="collisions" class="Collisions">
   <object id="4" name="collisionTree" type="Collision" x="63.9909" y="64.0449" width="128.092" height="127.285" rotation="0.144952"/>
+  <object id="5" name="leftWall" x="-41.8911" y="-35.9066" width="57.4506" height="713.345"/>
+  <object id="6" name="topWall" x="-64.632" y="-64.632" width="1098.74" height="75.4039"/>
+  <object id="7" name="rightWall" x="946.738" y="-92.1604" width="96.9479" height="766.008"/>
+  <object id="11" name="botWall" x="-15.5595" y="622.382" width="1128.67" height="71.8133"/>
+  <object id="12" name="collisiontree" x="607.912" y="95.0786" width="129.563" height="128.085"/>
+  <object id="13" name="collisiontree" x="223.361" y="320.231" width="128.893" height="127.692"/>
+  <object id="14" name="collisiontree" x="800.394" y="222.003" width="127.984" height="130.445"/>
+  <object id="15" name="collisiontree" x="510.952" y="414.964" width="127.984" height="128.969"/>
+  <object id="16" name="baobab" x="351.685" y="223.156" width="128.53" height="129.542"/>
+  <object id="17" name="baobab" x="639.105" y="285.902" width="128.53" height="129.542"/>
+  <object id="18" name="baobab" x="799.514" y="445.805" width="128.53" height="129.542"/>
+  <object id="19" name="baobab" x="64.7708" y="446.817" width="128.53" height="129.542"/>
  </objectgroup>
 </map>

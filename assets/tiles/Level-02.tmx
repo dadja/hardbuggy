@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="2">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="8">
  <tileset firstgid="1" source="addwork.tsx"/>
  <layer id="1" name="ground" width="30" height="20">
   <data encoding="csv">
@@ -51,5 +51,11 @@
  </layer>
  <objectgroup id="3" name="spawnpoints">
   <object id="1" name="Player" type="Player" x="224" y="256" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup color="#ea5629" id="4" name="collisions">
+  <object id="3" name="botWall" x="-64" y="608" width="1056" height="64"/>
+  <object id="5" name="topWall" x="-32" y="-32" width="1024" height="64"/>
+  <object id="6" name="rightWall" x="928" y="-32" width="64" height="704"/>
+  <object id="7" name="leftWall" x="-64" y="-32" width="96" height="704"/>
  </objectgroup>
 </map>
