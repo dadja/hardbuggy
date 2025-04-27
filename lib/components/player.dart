@@ -237,8 +237,8 @@ class Player extends SpriteAnimationGroupComponent
 
 //collisions
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    super.onCollision(intersectionPoints, other);
+  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
+
     var gap = 16;
     if (other is CollisionBlock) {
       // Handle collision with the block
@@ -262,7 +262,11 @@ class Player extends SpriteAnimationGroupComponent
     } else {
       print('Collision with other object detected');
     }
+
+    super.onCollisionStart(intersectionPoints, other);
   }
+
+
 
   @override
   void onCollisionEnd(PositionComponent other) {

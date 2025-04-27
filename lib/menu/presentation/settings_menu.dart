@@ -89,6 +89,14 @@ class _SettingsMenuState extends State<SettingsMenu> {
                               .add(ToggleSoundMute()),
                         ),
                         const SizedBox(height: 20),
+                        SpaceToggleSwitch(
+                          title: 'Enable JoyStick',
+                          value: !state.settings.isSoundMuted,
+                          onChanged: (value) => context
+                              .read<SettingsBloc>()
+                              .add(ToggleSoundMute()),
+                        ),
+                        const SizedBox(height: 20),
                         SpaceButton(
                           text: 'Close',
                           color: Theme.of(context).colorScheme.error,

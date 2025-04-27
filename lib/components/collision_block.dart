@@ -21,9 +21,10 @@ class CollisionBlock extends PositionComponent
     //     .addListener(() {
     // resolveCollisions();
     // });
-    await super.onLoad();
     add(RectangleHitbox(
       collisionType: CollisionType.active,
     ));
+    await super.onLoad();
+
   }
 }
