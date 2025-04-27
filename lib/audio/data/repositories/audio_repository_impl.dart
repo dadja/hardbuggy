@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flame_audio/flame_audio.dart';
 import 'package:hardbuggy/audio/domain/entities/sfx_type.dart';
-import '../domain/entities/music_type.dart';
-import '../domain/repositories/audio_repository.dart';
+import '../../domain/entities/music_type.dart';
+import '../../domain/repositories/audio_repository.dart';
 
 class AudioRepositoryImpl implements AudioRepository {
   bool _muted = false;
@@ -18,6 +18,7 @@ class AudioRepositoryImpl implements AudioRepository {
   final Map<SfxType, List<String>> _sfxTracks = {
     SfxType.hit: ['hit1.wav', 'hit2.wav'],
     SfxType.coin: ['coin1.wav', 'coin2.wav'],
+    SfxType.menu: ['coin2.wav'],
   };
 
   @override
