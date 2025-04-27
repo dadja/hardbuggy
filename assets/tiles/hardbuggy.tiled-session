@@ -3,42 +3,48 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Level-04.tmx",
+    "activeFile": "addwork.tsx",
     "expandedProjectPaths": [
         "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "Level-01.tmx": {
-            "scale": 0.6,
-            "selectedLayer": 4,
+            "scale": 2.11,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 310,
-                "y": 229.16666666666674
+                "x": 354.265402843602,
+                "y": 252.8436018957346
             }
         },
         "Level-02.tmx": {
-            "scale": 0.7,
+            "expandedObjectLayers": [
+                5
+            ],
+            "scale": 1.63,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 592.8571428571429,
-                "y": 380
+                "x": 507.6687116564417,
+                "y": 406.441717791411
             }
         },
         "Level-03.tmx": {
-            "scale": 1.64,
-            "selectedLayer": 4,
+            "expandedObjectLayers": [
+                6
+            ],
+            "scale": 1.6367,
+            "selectedLayer": 7,
             "viewCenter": {
-                "x": 706.0975609756097,
-                "y": 264.0243902439024
+                "x": 706.6047534673429,
+                "y": 564.2451273904809
             }
         },
         "Level-04.tmx": {
-            "scale": 0.72,
-            "selectedLayer": 3,
+            "scale": 1.8121,
+            "selectedLayer": 4,
             "viewCenter": {
-                "x": 395.83333333333337,
-                "y": 387.49999999999994
+                "x": 241.43259202030788,
+                "y": 377.18668947629817
             }
         },
         "addwork.tsx": {
@@ -57,17 +63,16 @@
     "last.imagePath": "/Users/dadja/code/games/flutter/hardbuggy/assets/images",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
-        "Level-04.tmx",
         "addwork.tsx"
     ],
     "project": "hardbuggy.tiled-project",
     "property.type": "color",
     "recentFiles": [
-        "Level-01.tmx",
+        "addwork.tsx",
         "Level-02.tmx",
         "Level-03.tmx",
         "Level-04.tmx",
-        "addwork.tsx",
+        "Level-01.tmx",
         "level.tmx"
     ],
     "tileset.lastUsedFormat": "tsx"

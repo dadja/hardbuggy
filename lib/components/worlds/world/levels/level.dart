@@ -24,6 +24,8 @@ class Level extends World with HasGameReference<HardBuggyGame> {
         .getLayer<ObjectGroup>(TileMapLayers.playerObjectGroupLayerName);
     final collisionLayer = level.tileMap
         .getLayer<ObjectGroup>(TileMapLayers.collisionsObjectGroupLayerName);
+    // final goodLayer = level.tileMap.getLayer<ObjectGroup>(
+    //     TileMapLayers.goodstoCollectObjectGroupLayerName);
 
     if (spawnPointLayer == null) {
       print('Spawn point layer not found');
@@ -33,6 +35,11 @@ class Level extends World with HasGameReference<HardBuggyGame> {
       print('Collision layer not found');
       return;
     }
+
+    // if (goodLayer == null) {
+    //   print('Good layer not found');
+    //   return;
+    // }
 
     for (final collision in collisionLayer.objects) {
       final collisionBlock = CollisionBlock(

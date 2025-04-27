@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="22">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="24">
  <tileset firstgid="1" source="addwork.tsx"/>
  <layer id="1" name="ground" width="30" height="20">
   <data encoding="csv">
@@ -93,5 +93,9 @@
   <object id="20" name="rock" x="352" y="224" width="64" height="32"/>
   <object id="19" x="224" y="256"/>
   <object id="21" name="collisiontree" x="96" y="96" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup color="#75f94c" id="7" name="goods">
+  <object id="22" name="good" type="Good" x="288" y="160" width="32" height="32"/>
+  <object id="23" name="good" type="Good" x="448" y="320" width="32" height="32"/>
  </objectgroup>
 </map>
