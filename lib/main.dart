@@ -87,13 +87,13 @@ class GameWrapper extends StatelessWidget {
                 },
               ),
             ),
-        MenuType.pause.name: (_, __) => const Center(
+        MenuType.pause.name: (_, __) => const Center(// TODO IF POSSIBLE
             child: Text('Pause',
                 style: TextStyle(color: Colors.white, fontSize: 40))),
-        MenuType.gameOver.name: (_, __) => const Center(
+        MenuType.gameOver.name: (_, __) => const Center( //TODO
             child: Text('Game Over',
                 style: TextStyle(color: Colors.white, fontSize: 40))),
-        MenuType.gameWon.name: (_, __) => const Center(
+        MenuType.gameWon.name: (_, __) => const Center(  //TODO
             child: Text('You Won',
                 style: TextStyle(color: Colors.white, fontSize: 40))),
         MenuType.gamePaused.name: (_, __) => const Center(

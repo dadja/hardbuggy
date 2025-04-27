@@ -7,4 +7,6 @@ class AssetsPaths {
 class TileMapLayers {
   static const String playerObjectGroupLayerName = 'spawnpoints';
   static const String collisionsObjectGroupLayerName = 'collisions';
+  static const String goodstoCollectObjectGroupLayerName = 'goods';
+  static const String gateObjectGroupLayerName = 'gate';
 }

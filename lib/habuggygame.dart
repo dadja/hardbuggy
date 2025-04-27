@@ -44,7 +44,7 @@ class HardBuggyGame extends FlameGame
     'Level-03',
     'Level-04',
   ];
-  int currentLevelIndex = 3;
+  int currentLevelIndex = 0;
   Player player = Player();
 
   @override
