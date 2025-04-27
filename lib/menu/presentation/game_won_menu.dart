@@ -4,37 +4,61 @@ import 'package:hardbuggy/audio/audio_controller.dart';
 import 'package:hardbuggy/audio/domain/entities/sfx_type.dart';
 import 'package:hardbuggy/habuggygame.dart';
 import 'package:hardbuggy/menu/domain/entities/menu_type.dart';
-import 'package:hardbuggy/menu/presentation/widgets/space_background.dart';
-import 'package:hardbuggy/menu/presentation/widgets/space_button.dart';
-import 'package:hardbuggy/menu/presentation/widgets/space_toggle_switch.dart';
 import 'package:hardbuggy/theme/pallet_color.dart';
 
 import 'bloc/settings_bloc.dart';
-import 'bloc/settings_event.dart';
 import 'bloc/settings_state.dart';
+import 'widgets/space_button.dart';
 import 'widgets/space_text_button.dart';
 
-class SettingsMenu extends StatefulWidget {
+class GameWonMenu extends StatefulWidget {
   final AudioController audioController;
   final HardBuggyGame game;
 
-  const SettingsMenu(
+  const GameWonMenu(
       {super.key, required this.audioController, required this.game});
 
   @override
-  State<SettingsMenu> createState() => _SettingsMenuState();
+  State<GameWonMenu> createState() => _GameWonMenuState();
 }
 
-class _SettingsMenuState extends State<SettingsMenu> {
+class _GameWonMenuState extends State<GameWonMenu>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    )..forward();
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, -1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Stack(
-        children: [
-          const SpaceBackground(),
-          Container(
+    return Center(
+      child: SlideTransition(
+        position: _slideAnimation,
+        child: Card(
+          color: Colors.greenAccent.shade400,
+          elevation: 10,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Container(
             color: Colors.black.withValues(alpha: 0.8),
             child: Center(
               child: Padding(
@@ -52,7 +76,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                             ],
                           ).createShader(bounds),
                           child: Text(
-                            'Settings',
+                            'You Won',
                             style:
                                 Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontSize: width * 0.04,
@@ -69,47 +93,17 @@ class _SettingsMenuState extends State<SettingsMenu> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        SpaceToggleSwitch(
-                          title: 'Music',
-                          value: !state.settings.isMusicMuted,
-                          onChanged: (value) {
-                            if (value) {
-                              widget.audioController.playMusic();
-                            } else {
-                              widget.audioController.stopMusic();
-                            }
-                            context.read<SettingsBloc>().add(ToggleMusicMute());
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        SpaceToggleSwitch(
-                          title: 'Sound',
-                          value: !state.settings.isSoundMuted,
-                          onChanged: (value) => context
-                              .read<SettingsBloc>()
-                              .add(ToggleSoundMute()),
-                        ),
-                        const SizedBox(height: 20),
-                        SpaceToggleSwitch(
-                          title: 'Enable JoyStick',
-                          value: !state.settings.isSoundMuted,
-                          onChanged: (value) => context
-                              .read<SettingsBloc>()
-                              .add(ToggleSoundMute()),
-                        ),
-                        const SizedBox(height: 20),
                         SpaceButton(
-                          color: Theme.of(context).colorScheme.error,
+                          color: Colors.greenAccent.shade400,
                           onPressed: () {
                             if (!state.settings.isSoundMuted) {
                               widget.audioController
                                   .playSfx(type: SfxType.menu);
                             }
-                            widget.game.overlays
-                                .remove(MenuType.gameSettings.name);
-                            widget.game.overlays.add(MenuType.main.name);
+                            widget.game.overlays.remove(MenuType.gameWon.name);
+                            widget.game.startGame();
                           },
-                          child: SpaceTextButton(text: 'Close'),
+                          child: SpaceTextButton(text: 'Go to next level'),
                         ),
                       ],
                     );
@@ -118,7 +112,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }

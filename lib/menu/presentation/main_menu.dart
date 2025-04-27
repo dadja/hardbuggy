@@ -3,6 +3,7 @@ import 'package:hardbuggy/theme/pallet_color.dart';
 
 import 'widgets/space_background.dart';
 import 'widgets/space_button.dart';
+import 'widgets/space_text_button.dart';
 
 class MainMenu extends StatelessWidget {
   final VoidCallback onPlay;
@@ -56,13 +57,13 @@ class MainMenu extends StatelessWidget {
                   const SizedBox(height: 60),
                   SpaceButton(
                     onPressed: onPlay,
-                    text: 'Play',
                     withAnimation: true,
+                    child: SpaceTextButton(text: 'Play'),
                   ),
                   const SizedBox(height: 20),
                   SpaceButton(
                     onPressed: onSettings,
-                    text: 'Settings',
+                    child: SpaceTextButton(text: 'Settings'),
                   ),
                 ],
               ),
