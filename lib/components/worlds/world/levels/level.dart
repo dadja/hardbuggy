@@ -15,6 +15,7 @@ class Level extends World with HasGameReference<HardBuggyGame> {
   List<CollisionBlock> collisionBlocks = [];
   List<Good> goods = [];
   List<Enemy> enemies = [];
+
   // late final spawnPointLayer;
   // late final collisionLayer;
   // late final goodLayer;
@@ -74,6 +75,9 @@ class Level extends World with HasGameReference<HardBuggyGame> {
       );
       goods.add(good);
     }
+    //totalNumber of Goods to Collect...
+    game.totalGoodsToCollect = goods.length;
+    game.textBoxComponent.text = "Good Collected : ${game.coinCollected} / ${game.totalGoodsToCollect}";
 
     for (final myEnemy in enemyLayer.objects) {
       final enemy = Enemy(size: myEnemy.size, position: myEnemy.position);

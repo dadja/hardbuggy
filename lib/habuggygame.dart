@@ -39,9 +39,10 @@ class HardBuggyGame extends FlameGame
   bool hasStarted = false;
 
   int coinCollected = 0;
+  int totalGoodsToCollect = 0;
 
   late TextBoxComponent textBoxComponent = TextBoxComponent(
-      text: "Good Collected : $coinCollected", align: Anchor.topCenter);
+      text: "Good Collected : $coinCollected / $totalGoodsToCollect", align: Anchor.topCenter);
 
   List<String> levelNames = [
     'Level-01',
@@ -126,7 +127,7 @@ class HardBuggyGame extends FlameGame
 
   void onCoinCollected() {
     coinCollected++;
-    textBoxComponent.text = "Good Collected :$coinCollected";
+    textBoxComponent.text = "Good Collected :$coinCollected / $totalGoodsToCollect";
     audioController.playSfx(type: SfxType.coin);
   }
 
