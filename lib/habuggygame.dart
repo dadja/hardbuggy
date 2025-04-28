@@ -59,22 +59,7 @@ class HardBuggyGame extends FlameGame
     images.loadAll([
       AssetsPaths.playerPath,
       AssetsPaths.goodPath,
-      '${AssetsPaths.enemyPath}00.png',
-      '${AssetsPaths.enemyPath}01.png',
-      '${AssetsPaths.enemyPath}02.png',
-      '${AssetsPaths.enemyPath}03.png',
-      '${AssetsPaths.enemyPath}04.png',
-      '${AssetsPaths.enemyPath}05.png',
-      '${AssetsPaths.enemyPath}06.png',
-      '${AssetsPaths.enemyPath}07.png',
-      '${AssetsPaths.enemyPath}08.png',
-      '${AssetsPaths.enemyPath}09.png',
-      '${AssetsPaths.enemyPath}10.png',
-      '${AssetsPaths.enemyPath}11.png',
-      '${AssetsPaths.enemyPath}12.png',
-      '${AssetsPaths.enemyPath}13.png',
-      '${AssetsPaths.enemyPath}14.png',
-      '${AssetsPaths.enemyPath}15.png',
+      ...List.generate(16, (index) => '${AssetsPaths.enemyPath}${index < 10 ? '0$index.png' : '$index.png'}',),
     ]);
     audioController.playMusic();
     overlays.add(MenuType.main.name);
