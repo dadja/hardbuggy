@@ -9,7 +9,9 @@ import 'package:hardbuggy/components/good.dart';
 import 'package:hardbuggy/habuggygame.dart';
 import 'package:hardbuggy/utils/collision_utils.dart';
 
+import '../menu/domain/entities/menu_type.dart';
 import 'enemy.dart';
+import 'gate.dart';
 
 enum PlayerAnimation {
   walkLeft,
@@ -306,6 +308,16 @@ class Player extends SpriteAnimationGroupComponent
 
     if (other is Enemy) {
       //game over ...
+      game.overlays.add( MenuType.gameOver.name);
+    }
+
+    if(other is Gate){
+    if(game.totalGoodsToCollect == 0) game.overlays.add(MenuType.gameWon.name);
+    else{
+        if(game.coinCollected == game.totalGoodsToCollect){
+          game.overlays.add(MenuType.gameWon.name);
+        }
+    }
     }
 
     super.onCollisionStart(intersectionPoints, other);

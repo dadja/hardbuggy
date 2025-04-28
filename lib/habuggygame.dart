@@ -41,7 +41,7 @@ class HardBuggyGame extends FlameGame
 
   int coinCollected = 0;
   int totalGoodsToCollect = 0;
-
+  late final List<Level> levels;
   late TextBoxComponent textBoxComponent = TextBoxComponent(
       text: "Good Collected : $coinCollected / $totalGoodsToCollect", align: Anchor.topCenter);
 
@@ -51,7 +51,7 @@ class HardBuggyGame extends FlameGame
     'Level-03',
     'Level-04',
   ];
-  int currentLevelIndex = 3;
+  int currentLevelIndex = 0;
   Player player = Player();
 
   @override
@@ -61,6 +61,10 @@ class HardBuggyGame extends FlameGame
       AssetsPaths.goodPath,
       ...List.generate(16, (index) => '${AssetsPaths.enemyPath}${index < 10 ? '0$index.png' : '$index.png'}',),
     ]);
+    levels =  List.generate(levelNames.length, (index) => Level(
+      player: player,
+      levelName: '${levelNames[currentLevelIndex]}.tmx',
+    ));
     audioController.playMusic();
     overlays.add(MenuType.main.name);
     return super.onLoad();
@@ -76,11 +80,13 @@ class HardBuggyGame extends FlameGame
 
   loadLevel() {
     if (currentLevelIndex < levelNames.length) {
-      world = Level(
-        player: player,
-        levelName: '${levelNames[currentLevelIndex]}.tmx',
-      );
-      currentLevelIndex++;
+
+      world = levels[currentLevelIndex];
+      //     Level(
+      //   player: player,
+      //   levelName: '${levelNames[currentLevelIndex]}.tmx',
+      // );
+
     } else {
       // Handle game completion or reset logic here
       print("The currentLevel = $currentLevelIndex does not exist in the list of levels");
@@ -144,6 +150,22 @@ class HardBuggyGame extends FlameGame
   void onResume() {
     audioController.playMusic();
   }
+
+  // Future<void> startFirstGame() async {
+  //   if (!hasStarted) {
+  //     audioController.playMusic(type: MusicType.game);
+  //     hasStarted = true;
+  //     //this is to keep images in cache once all loaded
+  //     await images.loadAllImages();
+  //     camera.viewfinder.anchor = Anchor.center;
+  //     camera.viewport = FixedResolutionViewport(resolution: Vector2(800, 600));
+  //     // camera.setBounds(bounds: Rect.fromLTRB(0, 0, 800, 600));
+  //     camera.viewport.add(textBoxComponent);
+  //     if (showJoyStick) camera.viewport.add(joystick);
+  //     loadLevel();
+  //     overlays.add(MenuType.pause.name);
+  //   }
+  // }
 
   Future<void> startGame() async {
     if (!hasStarted) {
