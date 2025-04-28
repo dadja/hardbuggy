@@ -110,9 +110,9 @@ class Level extends World with HasGameReference<HardBuggyGame> {
       add(good);
     }
 
-    // for (final enemy in enemies) {
-    //   add(enemy);
-    // }
+    for (final enemy in enemies) {
+      add(enemy);
+    }
     //add player to the world
     add(player);
     // add(RectangleHitbox(

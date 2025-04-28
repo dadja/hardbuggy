@@ -7,6 +7,7 @@ import 'package:hardbuggy/components/worlds/world/levels/level.dart';
 import 'package:hardbuggy/components/player.dart';
 import 'package:hardbuggy/theme/pallet_color.dart';
 
+import 'assetspath.dart';
 import 'audio/audio_controller.dart';
 import 'audio/domain/entities/music_type.dart';
 import 'audio/domain/entities/sfx_type.dart';
@@ -55,6 +56,26 @@ class HardBuggyGame extends FlameGame
 
   @override
   Future<void> onLoad() async {
+    images.loadAll([
+      AssetsPaths.playerPath,
+      AssetsPaths.goodPath,
+      '${AssetsPaths.enemyPath}00.png',
+      '${AssetsPaths.enemyPath}01.png',
+      '${AssetsPaths.enemyPath}02.png',
+      '${AssetsPaths.enemyPath}03.png',
+      '${AssetsPaths.enemyPath}04.png',
+      '${AssetsPaths.enemyPath}05.png',
+      '${AssetsPaths.enemyPath}06.png',
+      '${AssetsPaths.enemyPath}07.png',
+      '${AssetsPaths.enemyPath}08.png',
+      '${AssetsPaths.enemyPath}09.png',
+      '${AssetsPaths.enemyPath}10.png',
+      '${AssetsPaths.enemyPath}11.png',
+      '${AssetsPaths.enemyPath}12.png',
+      '${AssetsPaths.enemyPath}13.png',
+      '${AssetsPaths.enemyPath}14.png',
+      '${AssetsPaths.enemyPath}15.png',
+    ]);
     audioController.playMusic();
     overlays.add(MenuType.main.name);
     return super.onLoad();
