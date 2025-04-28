@@ -3,6 +3,8 @@ import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:hardbuggy/assetspath.dart';
 import 'package:hardbuggy/components/collision_block.dart';
+import 'package:hardbuggy/components/enemy.dart';
+import 'package:hardbuggy/components/good.dart';
 import 'package:hardbuggy/components/player.dart';
 import 'package:hardbuggy/habuggygame.dart';
 
@@ -11,6 +13,13 @@ class Level extends World with HasGameReference<HardBuggyGame> {
   final Player player;
   late TiledComponent level;
   List<CollisionBlock> collisionBlocks = [];
+  List<Good> goods = [];
+  List<Enemy> enemies = [];
+  // late final spawnPointLayer;
+  // late final collisionLayer;
+  // late final goodLayer;
+  // late final enemyLayer;
+
   // List<Enemy> enemies = [];
 
   Level({required this.levelName, required this.player});
@@ -18,12 +27,13 @@ class Level extends World with HasGameReference<HardBuggyGame> {
   @override
   FutureOr<void> onLoad() async {
     level = await TiledComponent.load(levelName, Vector2.all(32));
-    final spawnPointLayer = level.tileMap
+     final spawnPointLayer = level.tileMap
         .getLayer<ObjectGroup>(TileMapLayers.playerObjectGroupLayerName);
     final collisionLayer = level.tileMap
         .getLayer<ObjectGroup>(TileMapLayers.collisionsObjectGroupLayerName);
-    // final goodLayer = level.tileMap.getLayer<ObjectGroup>(
-    //     TileMapLayers.goodstoCollectObjectGroupLayerName);
+     final goodLayer = level.tileMap.getLayer<ObjectGroup>(
+        TileMapLayers.goodstoCollectObjectGroupLayerName);
+     final enemyLayer = level.tileMap.getLayer<ObjectGroup>(TileMapLayers.enemyObjectGroupLayerName);
 
     if (spawnPointLayer == null) {
       print('Spawn point layer not found');
@@ -33,11 +43,14 @@ class Level extends World with HasGameReference<HardBuggyGame> {
       print('Collision layer not found');
       return;
     }
-
-    // if (goodLayer == null) {
-    //   print('Good layer not found');
-    //   return;
-    // }
+    if (goodLayer == null) {
+      print('Good layer not found');
+      return;
+    }
+    if (enemyLayer == null) {
+      print('Good layer not found');
+      return;
+    }
 
     for (final collision in collisionLayer.objects) {
       final collisionBlock = CollisionBlock(
@@ -46,17 +59,14 @@ class Level extends World with HasGameReference<HardBuggyGame> {
       );
       collisionBlocks.add(collisionBlock);
       // add(collisionBlock);
+    }
 
-      //  switch (collision.class_) {
-      //   // case 'collision':
-      //   //   add(RectangleHitbox(
-      //   //     size: collision.size,
-      //   //     position: collision.position,
-      //   //     anchor: Anchor.center,
-      //   //   ));
-      //   //   break;
-      //   default:
-      //     break;
+    for(final goodBlock in goodLayer.objects){
+           final good = Good(
+              size: goodBlock.size,
+             position: goodBlock.position
+           );
+           goods.add(good);
     }
 
     for (final spawnPoint in spawnPointLayer.objects) {
@@ -79,6 +89,14 @@ class Level extends World with HasGameReference<HardBuggyGame> {
     //collision blocks should be added after the level
     for (final collisionBlock in collisionBlocks) {
       add(collisionBlock);
+    }
+
+    for(final good in goods){
+      add(good);
+    }
+
+    for(final enemy in enemies){
+      add(enemy);
     }
     //add player to the world
     add(player);

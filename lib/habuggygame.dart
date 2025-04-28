@@ -38,13 +38,18 @@ class HardBuggyGame extends FlameGame
 
   bool hasStarted = false;
 
+  int coinCollected = 0;
+
+  late TextBoxComponent textBoxComponent =
+      TextBoxComponent(text: coinCollected.toString(), align: Anchor.topCenter);
+
   List<String> levelNames = [
     'Level-01',
     'Level-02',
     'Level-03',
     'Level-04',
   ];
-  int currentLevelIndex = 0;
+  int currentLevelIndex = 3;
   Player player = Player();
 
   @override
@@ -119,6 +124,8 @@ class HardBuggyGame extends FlameGame
   }
 
   void onCoinCollected() {
+    coinCollected++;
+    textBoxComponent.text = coinCollected.toString();
     audioController.playSfx(type: SfxType.coin);
   }
 
@@ -139,6 +146,7 @@ class HardBuggyGame extends FlameGame
       camera.viewfinder.anchor = Anchor.center;
       camera.viewport = FixedResolutionViewport(resolution: Vector2(800, 600));
       // camera.setBounds(bounds: Rect.fromLTRB(0, 0, 800, 600));
+      camera.viewport.add(textBoxComponent);
       if (showJoyStick) camera.viewport.add(joystick);
       loadLevel();
       overlays.add(MenuType.pause.name);
