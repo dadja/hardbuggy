@@ -4,6 +4,7 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:hardbuggy/assetspath.dart';
 import 'package:hardbuggy/components/collision_block.dart';
 import 'package:hardbuggy/components/enemy.dart';
+import 'package:hardbuggy/components/gate.dart';
 import 'package:hardbuggy/components/good.dart';
 import 'package:hardbuggy/components/player.dart';
 import 'package:hardbuggy/habuggygame.dart';
@@ -11,6 +12,7 @@ import 'package:hardbuggy/habuggygame.dart';
 class Level extends World with HasGameReference<HardBuggyGame> {
   final String levelName;
   final Player player;
+  late final Gate gate;
   late TiledComponent level;
   List<CollisionBlock> collisionBlocks = [];
   List<Good> goods = [];
@@ -36,6 +38,7 @@ class Level extends World with HasGameReference<HardBuggyGame> {
         TileMapLayers.goodstoCollectObjectGroupLayerName);
     final enemyLayer = level.tileMap
         .getLayer<ObjectGroup>(TileMapLayers.enemyObjectGroupLayerName);
+    final gateLayer = level.tileMap.getLayer<ObjectGroup>(TileMapLayers.gateObjectGroupLayerName);
 
     if (spawnPointLayer == null) {
       print('Spawn point layer not found');
@@ -51,6 +54,11 @@ class Level extends World with HasGameReference<HardBuggyGame> {
     }
     if (enemyLayer == null) {
       print('Good layer not found');
+      return;
+    }
+
+    if (gateLayer == null) {
+      print('Gate layer not found');
       return;
     }
 
@@ -84,6 +92,11 @@ class Level extends World with HasGameReference<HardBuggyGame> {
       enemies.add(enemy);
     }
 
+
+       gate = Gate(size: gateLayer.objects[0].size, position: gateLayer.objects[0].position);
+      add(gate);
+
+
     for (final spawnPoint in spawnPointLayer.objects) {
       switch (spawnPoint.class_) {
         case 'Player':
@@ -110,9 +123,9 @@ class Level extends World with HasGameReference<HardBuggyGame> {
       add(good);
     }
 
-    // for (final enemy in enemies) {
-    //   add(enemy);
-    // }
+    for (final enemy in enemies) {
+      add(enemy);
+    }
     //add player to the world
     add(player);
     // add(RectangleHitbox(

@@ -76,7 +76,7 @@ class _GameWonMenuState extends State<GameWonMenu>
                             ],
                           ).createShader(bounds),
                           child: Text(
-                            'You Won',
+                            (widget.game.currentLevelIndex < widget.game.levelNames.length) ? 'Level ${widget.game.currentLevelIndex} Complete' : 'You reached the end of the game thanks for playing ',
                             style:
                                 Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontSize: width * 0.04,
@@ -93,17 +93,26 @@ class _GameWonMenuState extends State<GameWonMenu>
                           ),
                         ),
                         const SizedBox(height: 20),
-                        SpaceButton(
-                          color: Colors.greenAccent.shade400,
-                          onPressed: () {
-                            if (!state.settings.isSoundMuted) {
-                              widget.audioController
-                                  .playSfx(type: SfxType.menu);
-                            }
-                            widget.game.overlays.remove(MenuType.gameWon.name);
-                            widget.game.startGame();
-                          },
-                          child: SpaceTextButton(text: 'Go to next level'),
+                        Visibility(
+                          visible:(widget.game.currentLevelIndex < widget.game.levelNames.length) ,
+                          child:SpaceButton(
+                            color: Colors.greenAccent.shade400,
+                            onPressed: () {
+                              if (!state.settings.isSoundMuted) {
+                                widget.audioController
+                                    .playSfx(type: SfxType.menu);
+                              }
+                              widget.game.overlays.remove(MenuType.gameWon.name);
+                              if(widget.game.currentLevelIndex < widget.game.levelNames.length){
+                                widget.game.currentLevelIndex++;
+                                print("The currentLevel = ${widget.game.currentLevelIndex} ");
+                                widget.game.startGame();
+
+                              }
+
+                            },
+                            child: SpaceTextButton(text: 'Go to next level'),
+                          ),
                         ),
                       ],
                     );
