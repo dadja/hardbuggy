@@ -4,10 +4,15 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:hardbuggy/habuggygame.dart';
 
-class CollisionBlock extends PositionComponent
-    with HasGameReference<HardBuggyGame>, CollisionCallbacks {
-  CollisionBlock({required super.size, required super.position})
-      : super(
+class Good extends SpriteComponent
+    with
+        HasGameReference<HardBuggyGame>,
+        CollisionCallbacks {
+  Good({
+    required super.sprite,
+    required super.size,
+    required super.position,
+  }) : super(
           anchor: Anchor.topLeft,
         ) {
     // debugMode = true;

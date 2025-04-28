@@ -12,15 +12,20 @@
         "": {
             "scaleInDock": 1
         },
+        "#spacetileset": {
+            "scaleInDock": 1
+        },
         "Level-01.tmx": {
             "expandedObjectLayers": [
-                10
+                8,
+                10,
+                9
             ],
-            "scale": 2.8935,
+            "scale": 1,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 174.87471919820285,
-                "y": 79.66130983238291
+                "x": 161.5,
+                "y": 91
             }
         },
         "Level-01.tmx#spacetileset": {
@@ -28,14 +33,16 @@
         },
         "Level-02.tmx": {
             "expandedObjectLayers": [
-                5,
-                4
+                8,
+                10,
+                9,
+                7
             ],
-            "scale": 0.9466,
-            "selectedLayer": 5,
+            "scale": 1,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 183.81576167335731,
-                "y": 94.54891189520384
+                "x": 161.5,
+                "y": 91
             }
         },
         "Level-02.tmx#spacetileset": {
@@ -43,15 +50,17 @@
         },
         "Level-03.tmx": {
             "expandedObjectLayers": [
-                6,
+                8,
                 10,
-                4
+                9,
+                7,
+                6
             ],
-            "scale": 2.2595,
-            "selectedLayer": 5,
+            "scale": 1,
+            "selectedLayer": 9,
             "viewCenter": {
-                "x": 165.52334587298077,
-                "y": 88.73644611639742
+                "x": 161.5,
+                "y": 91
             }
         },
         "Level-03.tmx#spacetileset": {
@@ -59,13 +68,17 @@
         },
         "Level-04.tmx": {
             "expandedObjectLayers": [
-                4
+                8,
+                10,
+                9,
+                7,
+                6
             ],
-            "scale": 1.9466,
-            "selectedLayer": 5,
+            "scale": 2.3295,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 121.7507448885236,
-                "y": 80.39658892427822
+                "x": 192.1013092938399,
+                "y": 288.04464477355657
             }
         },
         "Level-04.tmx#spacetileset": {
@@ -85,7 +98,7 @@
         }
     },
     "last.imagePath": "/Users/dadja/code/games/flutter/hardbuggy/assets/images",
-    "map.height": 3,
+    "map.height": 4,
     "map.lastUsedFormat": "tmx",
     "map.width": 10,
     "openFiles": [
@@ -98,11 +111,11 @@
     "project": "hardbuggy.tiled-project",
     "property.type": "color",
     "recentFiles": [
-        "addwork.tsx",
-        "Level-01.tmx",
-        "Level-02.tmx",
-        "Level-03.tmx",
         "Level-04.tmx",
+        "Level-03.tmx",
+        "Level-02.tmx",
+        "Level-01.tmx",
+        "addwork.tsx",
         "level.tmx"
     ],
     "tileset.embedInMap": true,

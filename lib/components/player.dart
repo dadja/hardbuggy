@@ -5,7 +5,11 @@ import 'package:flame/components.dart';
 import 'package:flutter/services.dart';
 import 'package:hardbuggy/assetspath.dart';
 import 'package:hardbuggy/components/collision_block.dart';
+import 'package:hardbuggy/components/good.dart';
 import 'package:hardbuggy/habuggygame.dart';
+import 'package:hardbuggy/utils/collision_utils.dart';
+
+import 'enemy.dart';
 
 enum PlayerAnimation {
   walkLeft,
@@ -34,7 +38,8 @@ class Player extends SpriteAnimationGroupComponent
   late final SpriteAnimation walkDownAnimation;
   late Image spriteSheet;
   final double stepTime = 0.25;
-  double moveSpeed = 100;
+  final WordlTileSize = 32;
+  double moveSpeed = 32 * 10;
   double fixedDeltaTime = 1 / 60;
   double accumulatedTime = 0;
   Vector2 velocity = Vector2.zero();
@@ -55,13 +60,12 @@ class Player extends SpriteAnimationGroupComponent
   Player({position})
       : super(
             position: position, size: Vector2(32, 32), anchor: Anchor.topLeft) {
-    debugMode = true;
+    // debugMode = true;
   }
 
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
-    debugMode = true;
     add(RectangleHitbox());
     //add player rectangle hitbox..
     return super.onLoad();
@@ -211,8 +215,59 @@ class Player extends SpriteAnimationGroupComponent
     }
     velocity =
         Vector2(horizontalMovement.toDouble(), verticalMovement.toDouble());
+
+    //check collision from here ...
+    //save this position to be used after checking is ther will be collisions next ..
+    final originalPosition = position.clone();
+    //get the next movement update
+    final movementAfterFrame = velocity * moveSpeed * dt;
+    //fake the movement and check collision detection with it to knwo collision will happen ahead before doing the real move ...
+    position.add(movementAfterFrame);
+    if (verticalMovement < 0) {
+      //player moving Up
+      final playerNewTop = positionOfAnchor(Anchor.topCenter);
+      for (final block in game.world.componentsAtPoint(playerNewTop)) {
+        if (block is CollisionBlock) {
+          movementAfterFrame.y = 0;
+          break;
+        }
+      }
+    }
+    if (verticalMovement > 0) {
+      //player moving Down
+      final playerNewBottom = positionOfAnchor(Anchor.bottomCenter);
+      for (final block in game.world.componentsAtPoint(playerNewBottom)) {
+        if (block is CollisionBlock) {
+          movementAfterFrame.y = 0;
+          break;
+        }
+      }
+    }
+    if (horizontalMovement < 0) {
+      //player moving LEft
+      final playerNewLeft = positionOfAnchor(Anchor.centerLeft);
+      for (final block in game.world.componentsAtPoint(playerNewLeft)) {
+        if (block is CollisionBlock) {
+          movementAfterFrame.x = 0;
+          break;
+        }
+      }
+    }
+    if (horizontalMovement > 0) {
+      //player moving right
+      final playerNewRight = positionOfAnchor(Anchor.centerRight);
+      for (final block in game.world.componentsAtPoint(playerNewRight)) {
+        if (block is CollisionBlock) {
+          movementAfterFrame.x = 0;
+          break;
+        }
+      }
+    }
+
     //let the player move around ...
-    position += velocity * moveSpeed * dt;
+    // position += velocity * moveSpeed * dt;
+    position = originalPosition + movementAfterFrame;
+
     if (velocity == Vector2.zero()) {
       current = PlayerAnimation.walkRight;
     } else {
@@ -237,36 +292,24 @@ class Player extends SpriteAnimationGroupComponent
 
 //collisions
   @override
-  void onCollisionStart(Set<Vector2> intersectionPoints, PositionComponent other) {
-
-    var gap = 16;
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is CollisionBlock) {
       // Handle collision with the block
       print('Collision with block detected');
-      // You can add logic to stop the player or change its direction here
-      // For example, you can set the player's position to avoid going through the block
-      // position += velocity * moveSpeed * fixedDeltaTime;
-      if (horizontalMovement < 0) {
-        // Moving left, adjust position to the right of the block
-        position.x = other.x + other.width + gap;
-      } else if (horizontalMovement > 0) {
-        // Moving right, adjust position to the left of the block
-        position.x = other.x - size.x + gap;
-      } else if (verticalMovement < 0) {
-        // Moving up, adjust position to the bottom of the block
-        position.y = other.y + other.height + gap;
-      } else if (verticalMovement > 0) {
-        // Moving down, adjust position to the top of the block
-        position.y = other.y - size.y + gap;
-      }
-    } else {
-      print('Collision with other object detected');
+    }
+    if (other is Good) {
+      print('Collision with Good detected');
+      game.onCoinCollected();
+      //remove the good and count that all goods got collected..
+    }
+
+    if (other is Enemy) {
+      //game over ...
     }
 
     super.onCollisionStart(intersectionPoints, other);
   }
-
-
 
   @override
   void onCollisionEnd(PositionComponent other) {
