@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:hardbuggy/theme/pallet_color.dart';
 
 class SpaceButton extends StatefulWidget {
-  final String text;
+  final Widget child;
   final Color color;
   final bool withAnimation;
+  final bool isIconOnly;
   final VoidCallback onPressed;
 
   const SpaceButton(
-      {required this.text,
+      {required this.child,
       this.color = PalletColor.secondaryColor,
       this.withAnimation = false,
+      this.isIconOnly = false,
       required this.onPressed,
       super.key});
 
@@ -56,10 +58,11 @@ class _SpaceButtonState extends State<SpaceButton>
         shadowColor: widget.color.withValues(alpha: 0.6),
         elevation: 10,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(widget.isIconOnly ?15:20),
         ),
-        fixedSize: Size(width/3, 60),
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        fixedSize:
+            widget.isIconOnly ? Size(width / 14, 30) : Size(width / 3, 60),
+        // padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       ),
       onPressed: widget.onPressed,
       child: widget.withAnimation
@@ -91,14 +94,7 @@ class _SpaceButtonState extends State<SpaceButton>
                   ],
                 ),
               ),
-              Text(
-                widget.text,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white.withValues(alpha: 0.8),
-                    ),
-              ),
+              widget.child,
               // Right Icon moving right to left
               Transform.translate(
                 offset: Offset(-_animation.value, 0),
@@ -120,14 +116,7 @@ class _SpaceButtonState extends State<SpaceButton>
             ],
           )
         : Center(
-            child: Text(
-              widget.text,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white.withValues(alpha: 0.8),
-                  ),
-            ),
+            child: widget.child,
           );
   }
 }

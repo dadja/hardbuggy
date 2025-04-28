@@ -132,7 +132,6 @@ class HardBuggyGame extends FlameGame
 
   Future<void> startGame() async {
     if (!hasStarted) {
-      overlays.remove(MenuType.main.name);
       audioController.playMusic(type: MusicType.game);
       hasStarted = true;
       //this is to keep images in cache once all loaded
@@ -142,6 +141,7 @@ class HardBuggyGame extends FlameGame
       // camera.setBounds(bounds: Rect.fromLTRB(0, 0, 800, 600));
       if (showJoyStick) camera.viewport.add(joystick);
       loadLevel();
+      overlays.add(MenuType.pause.name);
     }
   }
 }

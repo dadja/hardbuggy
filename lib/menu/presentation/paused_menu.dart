@@ -6,26 +6,24 @@ import 'package:hardbuggy/habuggygame.dart';
 import 'package:hardbuggy/menu/domain/entities/menu_type.dart';
 import 'package:hardbuggy/menu/presentation/widgets/space_background.dart';
 import 'package:hardbuggy/menu/presentation/widgets/space_button.dart';
-import 'package:hardbuggy/menu/presentation/widgets/space_toggle_switch.dart';
 import 'package:hardbuggy/theme/pallet_color.dart';
 
 import 'bloc/settings_bloc.dart';
-import 'bloc/settings_event.dart';
 import 'bloc/settings_state.dart';
 import 'widgets/space_text_button.dart';
 
-class SettingsMenu extends StatefulWidget {
+class PausedMenu extends StatefulWidget {
   final AudioController audioController;
   final HardBuggyGame game;
 
-  const SettingsMenu(
+  const PausedMenu(
       {super.key, required this.audioController, required this.game});
 
   @override
-  State<SettingsMenu> createState() => _SettingsMenuState();
+  State<PausedMenu> createState() => _PausedMenuState();
 }
 
-class _SettingsMenuState extends State<SettingsMenu> {
+class _PausedMenuState extends State<PausedMenu> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -52,7 +50,7 @@ class _SettingsMenuState extends State<SettingsMenu> {
                             ],
                           ).createShader(bounds),
                           child: Text(
-                            'Settings',
+                            'Paused',
                             style:
                                 Theme.of(context).textTheme.bodyLarge?.copyWith(
                               fontSize: width * 0.04,
@@ -69,35 +67,6 @@ class _SettingsMenuState extends State<SettingsMenu> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        SpaceToggleSwitch(
-                          title: 'Music',
-                          value: !state.settings.isMusicMuted,
-                          onChanged: (value) {
-                            if (value) {
-                              widget.audioController.playMusic();
-                            } else {
-                              widget.audioController.stopMusic();
-                            }
-                            context.read<SettingsBloc>().add(ToggleMusicMute());
-                          },
-                        ),
-                        const SizedBox(height: 20),
-                        SpaceToggleSwitch(
-                          title: 'Sound',
-                          value: !state.settings.isSoundMuted,
-                          onChanged: (value) => context
-                              .read<SettingsBloc>()
-                              .add(ToggleSoundMute()),
-                        ),
-                        const SizedBox(height: 20),
-                        SpaceToggleSwitch(
-                          title: 'Enable JoyStick',
-                          value: !state.settings.isSoundMuted,
-                          onChanged: (value) => context
-                              .read<SettingsBloc>()
-                              .add(ToggleSoundMute()),
-                        ),
-                        const SizedBox(height: 20),
                         SpaceButton(
                           color: Theme.of(context).colorScheme.error,
                           onPressed: () {
@@ -105,11 +74,12 @@ class _SettingsMenuState extends State<SettingsMenu> {
                               widget.audioController
                                   .playSfx(type: SfxType.menu);
                             }
-                            widget.game.overlays
-                                .remove(MenuType.gameSettings.name);
-                            widget.game.overlays.add(MenuType.main.name);
+                            widget.game.resumeEngine();
+                            widget.game.onResume();
+                            widget.game.overlays.remove(MenuType.gamePaused.name);
+                            widget.game.overlays.add(MenuType.pause.name);
                           },
-                          child: SpaceTextButton(text: 'Close'),
+                          child: SpaceTextButton(text: 'Resume'),
                         ),
                       ],
                     );
