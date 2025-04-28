@@ -10,7 +10,7 @@ class CollisionBlock extends PositionComponent
       : super(
           anchor: Anchor.topLeft,
         ) {
-    debugMode = true;
+    // debugMode = true;
   }
 
   @override
@@ -19,6 +19,5 @@ class CollisionBlock extends PositionComponent
       collisionType: CollisionType.active,
     ));
     await super.onLoad();
-
   }
 }

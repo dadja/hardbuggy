@@ -20,20 +20,21 @@ class Level extends World with HasGameReference<HardBuggyGame> {
   // late final goodLayer;
   // late final enemyLayer;
 
-  // List<Enemy> enemies = [];
+
 
   Level({required this.levelName, required this.player});
 
   @override
   FutureOr<void> onLoad() async {
     level = await TiledComponent.load(levelName, Vector2.all(32));
-     final spawnPointLayer = level.tileMap
+    final spawnPointLayer = level.tileMap
         .getLayer<ObjectGroup>(TileMapLayers.playerObjectGroupLayerName);
     final collisionLayer = level.tileMap
         .getLayer<ObjectGroup>(TileMapLayers.collisionsObjectGroupLayerName);
-     final goodLayer = level.tileMap.getLayer<ObjectGroup>(
+    final goodLayer = level.tileMap.getLayer<ObjectGroup>(
         TileMapLayers.goodstoCollectObjectGroupLayerName);
-     final enemyLayer = level.tileMap.getLayer<ObjectGroup>(TileMapLayers.enemyObjectGroupLayerName);
+    final enemyLayer = level.tileMap
+        .getLayer<ObjectGroup>(TileMapLayers.enemyObjectGroupLayerName);
 
     if (spawnPointLayer == null) {
       print('Spawn point layer not found');
@@ -61,12 +62,22 @@ class Level extends World with HasGameReference<HardBuggyGame> {
       // add(collisionBlock);
     }
 
-    for(final goodBlock in goodLayer.objects){
-           final good = Good(
-              size: goodBlock.size,
-             position: goodBlock.position
-           );
-           goods.add(good);
+    for (final goodBlock in goodLayer.objects) {
+      final good = Good(
+        size: goodBlock.size,
+        position: goodBlock.position,
+        sprite: Sprite(
+          game.images.fromCache(AssetsPaths.goodPath),
+          srcPosition: Vector2.all(0),
+          srcSize: Vector2.all(32),
+        ),
+      );
+      goods.add(good);
+    }
+
+    for (final myEnemy in enemyLayer.objects) {
+      final enemy = Enemy(size: myEnemy.size, position: myEnemy.position);
+      enemies.add(enemy);
     }
 
     for (final spawnPoint in spawnPointLayer.objects) {
@@ -91,13 +102,13 @@ class Level extends World with HasGameReference<HardBuggyGame> {
       add(collisionBlock);
     }
 
-    for(final good in goods){
+    for (final good in goods) {
       add(good);
     }
 
-    for(final enemy in enemies){
-      add(enemy);
-    }
+    // for (final enemy in enemies) {
+    //   add(enemy);
+    // }
     //add player to the world
     add(player);
     // add(RectangleHitbox(

@@ -60,13 +60,12 @@ class Player extends SpriteAnimationGroupComponent
   Player({position})
       : super(
             position: position, size: Vector2(32, 32), anchor: Anchor.topLeft) {
-    debugMode = true;
+    // debugMode = true;
   }
 
   @override
   FutureOr<void> onLoad() {
     _loadAllAnimations();
-    debugMode = true;
     add(RectangleHitbox());
     //add player rectangle hitbox..
     return super.onLoad();

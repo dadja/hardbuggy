@@ -40,8 +40,8 @@ class HardBuggyGame extends FlameGame
 
   int coinCollected = 0;
 
-  late TextBoxComponent textBoxComponent =
-      TextBoxComponent(text: coinCollected.toString(), align: Anchor.topCenter);
+  late TextBoxComponent textBoxComponent = TextBoxComponent(
+      text: "Good Collected : $coinCollected", align: Anchor.topCenter);
 
   List<String> levelNames = [
     'Level-01',
@@ -76,6 +76,7 @@ class HardBuggyGame extends FlameGame
       currentLevelIndex++;
     } else {
       // Handle game completion or reset logic here
+      print("The currentLevel = $currentLevelIndex does not exist in the list of levels");
     }
   }
 
@@ -125,7 +126,7 @@ class HardBuggyGame extends FlameGame
 
   void onCoinCollected() {
     coinCollected++;
-    textBoxComponent.text = coinCollected.toString();
+    textBoxComponent.text = "Good Collected :$coinCollected";
     audioController.playSfx(type: SfxType.coin);
   }
 

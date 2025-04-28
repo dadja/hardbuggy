@@ -1,6 +1,7 @@
 class AssetsPaths {
   static const String playerPath = 'player_128.png'; //player.png
   static const String enemyPath = '/monster/sprite_';
+  static const String goodPath = 'good.png';
   // static const String backgroundPath = 'background.png';
 }
 
