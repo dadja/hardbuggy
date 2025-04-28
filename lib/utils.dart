@@ -1,0 +1,1 @@
+const double mapTileSize  = 32.0;

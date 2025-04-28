@@ -55,6 +55,7 @@ class Player extends SpriteAnimationGroupComponent
   bool isRightKeyPressed = false;
   bool isUpKeyPressed = false;
   bool isDownKeyPressed = false;
+  Vector2 startPosition = Vector2.zero();
 
   int horizontalMovement = 0;
   int verticalMovement = 0;

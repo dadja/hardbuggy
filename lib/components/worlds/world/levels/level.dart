@@ -8,6 +8,7 @@ import 'package:hardbuggy/components/gate.dart';
 import 'package:hardbuggy/components/good.dart';
 import 'package:hardbuggy/components/player.dart';
 import 'package:hardbuggy/habuggygame.dart';
+import 'package:hardbuggy/utils.dart';
 
 class Level extends World with HasGameReference<HardBuggyGame> {
   final String levelName;
@@ -29,7 +30,7 @@ class Level extends World with HasGameReference<HardBuggyGame> {
 
   @override
   FutureOr<void> onLoad() async {
-    level = await TiledComponent.load(levelName, Vector2.all(32));
+    level = await TiledComponent.load(levelName, Vector2.all(mapTileSize));
     final spawnPointLayer = level.tileMap
         .getLayer<ObjectGroup>(TileMapLayers.playerObjectGroupLayerName);
     final collisionLayer = level.tileMap
@@ -78,7 +79,7 @@ class Level extends World with HasGameReference<HardBuggyGame> {
         sprite: Sprite(
           game.images.fromCache(AssetsPaths.goodPath),
           srcPosition: Vector2.all(0),
-          srcSize: Vector2.all(32),
+          srcSize: Vector2.all(mapTileSize),
         ),
       );
       goods.add(good);
@@ -89,6 +90,7 @@ class Level extends World with HasGameReference<HardBuggyGame> {
 
     for (final myEnemy in enemyLayer.objects) {
       final enemy = Enemy(size: myEnemy.size, position: myEnemy.position);
+       enemy.startPosition = myEnemy.position;
       enemies.add(enemy);
     }
 
@@ -100,13 +102,11 @@ class Level extends World with HasGameReference<HardBuggyGame> {
     for (final spawnPoint in spawnPointLayer.objects) {
       switch (spawnPoint.class_) {
         case 'Player':
+          player.startPosition = spawnPoint.position;
           player.position = spawnPoint.position;
-          player.size = Vector2(32, 32);
+          player.size = Vector2.all(mapTileSize);
           player.anchor = Anchor.center;
           game.camera.follow(player);
-          break;
-        case 'enemy':
-          // Handle enemy spawn point
           break;
         default:
           break;

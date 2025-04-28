@@ -51,7 +51,7 @@ class HardBuggyGame extends FlameGame
     'Level-03',
     'Level-04',
   ];
-  int currentLevelIndex = 0;
+  int currentLevelIndex = 3;
   Player player = Player();
 
   @override
@@ -81,7 +81,9 @@ class HardBuggyGame extends FlameGame
   loadLevel() {
     if (currentLevelIndex < levelNames.length) {
 
-      world = levels[currentLevelIndex];
+      Level level = levels[currentLevelIndex];
+
+      world = level;//levels[currentLevelIndex];
       //     Level(
       //   player: player,
       //   levelName: '${levelNames[currentLevelIndex]}.tmx',
@@ -171,7 +173,7 @@ class HardBuggyGame extends FlameGame
     if (!hasStarted) {
       audioController.playMusic(type: MusicType.game);
       hasStarted = true;
-      //this is to keep images in cache once all loaded
+      //this is to keep images in cache once all loaded but cost a lot
       await images.loadAllImages();
       camera.viewfinder.anchor = Anchor.center;
       camera.viewport = FixedResolutionViewport(resolution: Vector2(800, 600));
